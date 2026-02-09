@@ -1,2 +1,2 @@
-# maitre-negotiateur
+# maitre-negociateur
 Jeu de négociation avec IA
