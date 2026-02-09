@@ -1,0 +1,3676 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maître Négociateur - Entraînez-vous aux techniques de négociation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0e1a;
+            --bg-card: #131824;
+            --bg-hover: #1a1f2e;
+            --accent-primary: #ff6b35;
+            --accent-secondary: #f7931e;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b8c8;
+            --border-color: #2a3142;
+            --success: #4caf50;
+            --warning: #ffc107;
+            --danger: #f44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #0f1419 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            /* Optimisations mobile */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-tap-highlight-color: rgba(255, 107, 53, 0.3);
+            touch-action: manipulation;
+        }
+
+        .background-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 35px, var(--text-primary) 35px, var(--text-primary) 36px),
+                repeating-linear-gradient(-45deg, transparent, transparent 35px, var(--text-primary) 35px, var(--text-primary) 36px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-primary);
+            box-shadow: 0 10px 40px rgba(255, 107, 53, 0.2);
+        }
+
+        .technique-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .technique-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .technique-card input[type="checkbox"] {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            accent-color: var(--accent-primary);
+        }
+
+        .technique-card.selected {
+            border-color: var(--accent-primary);
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(247, 147, 30, 0.1));
+        }
+
+        .technique-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-secondary);
+            padding-right: 40px;
+        }
+
+        .technique-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .scenario-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .scenario-btn {
+            background: linear-gradient(135deg, var(--bg-card), var(--bg-hover));
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .scenario-btn:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+        }
+
+        .scenario-btn .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .scenario-btn h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .scenario-btn p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            /* Mobile touch optimizations */
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            touch-action: manipulation;
+            min-height: 48px; /* Accessibilité tactile */
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+
+        .choice-container {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .choice-btn {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .choice-btn:hover {
+            border-color: var(--accent-primary);
+            transform: translateX(10px);
+            background: var(--bg-hover);
+        }
+
+        .choice-btn .choice-label {
+            font-weight: 700;
+            color: var(--accent-secondary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .hint-btn {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid var(--accent-primary);
+            color: var(--accent-primary);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .hint-btn:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .technique-hint {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(255, 107, 53, 0.1);
+            border-left: 3px solid var(--accent-primary);
+            border-radius: 8px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .technique-hint.visible {
+            display: block;
+        }
+
+        .technique-hint strong {
+            color: var(--accent-secondary);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .tooltip-term {
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            text-decoration-color: var(--accent-primary);
+            cursor: help;
+            position: relative;
+        }
+
+        .tooltip-content {
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-card);
+            border: 2px solid var(--accent-primary);
+            color: var(--text-primary);
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            width: 250px;
+            z-index: 1000;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .tooltip-content::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 8px solid transparent;
+            border-top-color: var(--accent-primary);
+        }
+
+        .tooltip-term:hover .tooltip-content {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .next-step-btn {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 2rem;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .next-step-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+        }
+
+        .download-btn {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 2px solid var(--accent-primary);
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 1rem;
+        }
+
+        .download-btn:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .journey-summary {
+            background: var(--bg-hover);
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+
+        .journey-step {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid var(--border-color);
+        }
+
+        .journey-step.excellent {
+            border-left-color: var(--success);
+        }
+
+        .journey-step.good {
+            border-left-color: #2196F3;
+        }
+
+        .journey-step.medium {
+            border-left-color: var(--warning);
+        }
+
+        .journey-step.bad {
+            border-left-color: var(--danger);
+        }
+
+        .journey-step h4 {
+            color: var(--accent-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .journey-step .choice-made {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0.5rem 0;
+        }
+
+        .journey-step .technique-used {
+            display: inline-block;
+            background: rgba(255, 107, 53, 0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            margin: 0.5rem 0;
+        }
+
+        .journey-step .feedback-text {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            line-height: 1.6;
+        }
+
+        /* Système narratif et dialogues */
+        .narrative-box {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.05), rgba(247, 147, 30, 0.05));
+            border-left: 4px solid var(--accent-primary);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .narrative-box::before {
+            content: '📖';
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+        }
+
+        .dialogue-container {
+            margin: 2rem 0;
+        }
+
+        .dialogue-bubble {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .dialogue-bubble.player {
+            flex-direction: row-reverse;
+        }
+
+        .character-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+            border: 3px solid var(--border-color);
+        }
+
+        .dialogue-bubble.player .character-avatar {
+            background: linear-gradient(135deg, #2196F3, #00BCD4);
+        }
+
+        .dialogue-content {
+            flex: 1;
+            background: var(--bg-card);
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
+            position: relative;
+        }
+
+        .dialogue-bubble.player .dialogue-content {
+            background: linear-gradient(135deg, rgba(33, 150, 243, 0.1), rgba(0, 188, 212, 0.1));
+            border-color: #2196F3;
+        }
+
+        .character-name {
+            font-weight: 700;
+            color: var(--accent-secondary);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .dialogue-bubble.player .character-name {
+            color: #2196F3;
+        }
+
+        .dialogue-text {
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        .thought-bubble {
+            background: var(--bg-hover);
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        .thought-bubble::before {
+            content: '💭 ';
+            font-size: 1.2rem;
+        }
+
+        .internal-monologue {
+            background: rgba(247, 147, 30, 0.05);
+            border-left: 3px solid var(--accent-secondary);
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+
+        .internal-monologue::before {
+            content: '🤔 Réflexion : ';
+            font-weight: 700;
+            color: var(--accent-secondary);
+        }
+
+        /* Choix interactifs style "livre dont vous êtes le héros" */
+        .choice-btn {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .choice-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .choice-btn:hover::before {
+            left: 100%;
+        }
+
+        .choice-btn:hover {
+            border-color: var(--accent-primary);
+            transform: translateX(10px);
+            background: var(--bg-hover);
+            box-shadow: -5px 0 0 var(--accent-primary);
+        }
+
+        .choice-preview {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px dashed var(--border-color);
+            font-style: italic;
+        }
+
+        .consequence-indicator {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .consequence-indicator.positive {
+            background: rgba(76, 175, 80, 0.2);
+            color: var(--success);
+        }
+
+        .consequence-indicator.neutral {
+            background: rgba(255, 193, 7, 0.2);
+            color: var(--warning);
+        }
+
+        .consequence-indicator.negative {
+            background: rgba(244, 67, 54, 0.2);
+            color: var(--danger);
+        }
+
+        /* Effets émotionnels */
+        .emotion-indicator {
+            display: inline-block;
+            font-size: 1.5rem;
+            margin: 0 0.25rem;
+            animation: bounce 0.5s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Timeline de la négociation */
+        .negotiation-timeline {
+            background: var(--bg-hover);
+            padding: 1rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            background: var(--bg-card);
+            border-radius: 8px;
+            border-left: 3px solid var(--border-color);
+        }
+
+        .timeline-item.active {
+            border-left-color: var(--accent-primary);
+            background: linear-gradient(90deg, rgba(255, 107, 53, 0.1), transparent);
+        }
+
+        .timeline-icon {
+            font-size: 1.5rem;
+        }
+
+        .context-panel {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .context-section {
+            margin: 1rem 0;
+        }
+
+        .context-section h4 {
+            color: var(--accent-secondary);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .context-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .context-item:last-child {
+            border-bottom: none;
+        }
+
+        .pressure-meter {
+            background: var(--bg-hover);
+            height: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .pressure-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), var(--warning), var(--danger));
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+
+        /* Styles pour les étapes de chargement */
+        .loading-step {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            background: var(--bg-hover);
+            border-radius: 8px;
+            opacity: 0.4;
+            transition: all 0.5s ease;
+        }
+
+        .loading-step.active {
+            opacity: 1;
+            background: linear-gradient(90deg, rgba(255, 107, 53, 0.2), transparent);
+            border-left: 3px solid var(--accent-primary);
+        }
+
+        .loading-step.completed {
+            opacity: 0.7;
+        }
+
+        .loading-step .step-icon {
+            font-size: 1.3rem;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .loading-step.active .step-icon {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .loading-step.completed .step-icon::before {
+            content: '✅';
+        }
+
+        .loading-step .step-text {
+            flex: 1;
+            color: var(--text-secondary);
+        }
+
+        .loading-step.active .step-text {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+        }
+
+        /* Animation shake pour les erreurs */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+        }
+
+        .shake {
+            animation: shake 0.5s;
+        }
+
+        /* Styles pour les images de scène */
+        .scene-image {
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .scene-image:hover {
+            transform: scale(1.02);
+        }
+
+        .scene-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .scene-caption {
+            background: var(--bg-hover);
+            padding: 0.75rem 1rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .feedback {
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .feedback.success {
+            background: rgba(76, 175, 80, 0.1);
+            border: 2px solid var(--success);
+        }
+
+        .feedback.warning {
+            background: rgba(255, 193, 7, 0.1);
+            border: 2px solid var(--warning);
+        }
+
+        .feedback.danger {
+            background: rgba(244, 67, 54, 0.1);
+            border: 2px solid var(--danger);
+        }
+
+        .progress-bar {
+            background: var(--bg-hover);
+            height: 8px;
+            border-radius: 10px;
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: var(--bg-hover);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--accent-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        .techniques-used {
+            background: var(--bg-hover);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .technique-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin: 0.25rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* ========================================
+           RESPONSIVE MOBILE - OPTIMISATION COMPLÈTE
+           ======================================== */
+        
+        @media (max-width: 768px) {
+            /* Réduction tailles police */
+            h1 {
+                font-size: 2rem !important;
+                margin-bottom: 0.5rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem !important;
+            }
+            
+            h3 {
+                font-size: 1.2rem !important;
+            }
+            
+            body {
+                font-size: 0.95rem;
+            }
+            
+            /* Container plus étroit */
+            .container {
+                padding: 0.5rem !important;
+            }
+            
+            .card {
+                padding: 1rem !important;
+                margin: 0.5rem 0;
+            }
+            
+            /* Grilles en 1 colonne */
+            .technique-grid,
+            .scenario-types {
+                grid-template-columns: 1fr !important;
+                gap: 0.75rem;
+            }
+            
+            /* Boutons plus grands (pour les doigts) */
+            .btn, .choice-btn, .scenario-btn, .technique-card {
+                min-height: 60px;
+                padding: 1rem !important;
+                font-size: 1rem !important;
+            }
+            
+            .scenario-btn .icon {
+                font-size: 2.5rem !important;
+            }
+            
+            /* Stats plus compactes */
+            .stats-bar {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .stat-item {
+                width: 100% !important;
+            }
+            
+            /* Choix plus lisibles */
+            .choice-btn {
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 0.75rem;
+            }
+            
+            .choice-label {
+                width: 100%;
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 0.5rem;
+            }
+            
+            .hint-btn {
+                width: 100%;
+                margin-top: 0.5rem;
+            }
+            
+            /* Feedback plus compact */
+            .feedback-box {
+                padding: 1rem !important;
+            }
+            
+            /* Profil joueur responsive */
+            .scene-image img {
+                max-height: 200px !important;
+            }
+            
+            /* Réduire les marges */
+            .ending-screen {
+                padding: 1rem !important;
+            }
+            
+            .ending-icon {
+                font-size: 3rem !important;
+            }
+            
+            /* Grille de badges */
+            .badges-grid {
+                grid-template-columns: 1fr !important;
+            }
+            
+            /* Navigation sticky pour mobile */
+            .next-step-btn {
+                position: sticky;
+                bottom: 10px;
+                width: calc(100% - 2rem);
+                margin: 1rem;
+                z-index: 100;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+            }
+            
+            /* Scroll smooth */
+            html {
+                scroll-behavior: smooth;
+            }
+            
+            /* Texte plus lisible */
+            p, li {
+                line-height: 1.6;
+            }
+            
+            /* Popup badges plus petits */
+            .badge {
+                padding: 0.4rem 0.8rem !important;
+                font-size: 0.85rem !important;
+            }
+            
+            /* Écran de chargement */
+            #loading-steps {
+                font-size: 0.85rem;
+            }
+            
+            /* Barre XP */
+            .xp-bar-container {
+                height: 15px !important;
+            }
+        }
+        
+        /* Très petits écrans (< 400px) */
+        @media (max-width: 400px) {
+            h1 {
+                font-size: 1.75rem !important;
+            }
+            
+            .btn, .choice-btn {
+                min-height: 50px;
+                padding: 0.75rem !important;
+                font-size: 0.9rem !important;
+            }
+            
+            .scenario-btn .icon {
+                font-size: 2rem !important;
+            }
+            
+            .ending-icon {
+                font-size: 2.5rem !important;
+            }
+        }
+        
+        /* Orientation paysage mobile */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .container {
+                padding: 0.5rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem !important;
+                margin-bottom: 0.25rem;
+            }
+            
+            .card {
+                padding: 0.75rem !important;
+            }
+            
+            .btn {
+                padding: 0.5rem 1rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-pattern"></div>
+    
+    <div class="container">
+        <header>
+            <h1>Maître Négociateur</h1>
+            <p class="subtitle">Entraînez-vous aux techniques de négociation professionnelles avec des scénarios générés par l'IA</p>
+        </header>
+
+        <!-- Écran 1: Choix du scénario (technique selection removed) -->
+        <div id="screen-scenario" class="screen active">
+            <div class="card">
+                <!-- Profil joueur en haut -->
+                <div style="text-align: center; margin-bottom: 2rem; padding: 1.5rem; background: var(--bg-hover); border-radius: 12px;">
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 2rem; flex-wrap: wrap;">
+                        <div>
+                            <div style="font-size: 1.2rem; color: var(--accent-primary);">
+                                Niveau <span id="display-level">1</span>
+                            </div>
+                            <div style="font-size: 0.9rem; color: var(--text-secondary);">
+                                <span id="display-xp">0</span>/<span id="display-xp-next">100</span> XP
+                            </div>
+                        </div>
+                        <div style="flex: 1; max-width: 300px;">
+                            <div style="background: var(--bg-card); height: 20px; border-radius: 10px; overflow: hidden;">
+                                <div id="display-xp-bar" style="height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary)); transition: width 0.5s;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <button onclick="showBadgesScreen()" style="background: transparent; border: 2px solid var(--accent-primary); color: var(--accent-primary); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-size: 0.9rem;">
+                                🏆 <span id="display-badges">0</span> Badges
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 1rem;">Choisissez votre scénario</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem;">Sélectionnez le type de négociation que vous souhaitez simuler. Les techniques seront sélectionnées à chaque étape.</p>
+                
+                <div class="scenario-types">
+                    <div class="scenario-btn" data-type="business">
+                        <div class="icon">💼</div>
+                        <h3>Affaires</h3>
+                        <p>Négociations commerciales, contrats, partenariats</p>
+                    </div>
+                    <div class="scenario-btn" data-type="politics">
+                        <div class="icon">🏛️</div>
+                        <h3>Politique</h3>
+                        <p>Diplomatie, accords internationaux, législation</p>
+                    </div>
+                    <div class="scenario-btn" data-type="conflict">
+                        <div class="icon">⚔️</div>
+                        <h3>Conflits</h3>
+                        <p>Résolution de conflits, médiations, cessez-le-feu</p>
+                    </div>
+                    <div class="scenario-btn" data-type="career">
+                        <div class="icon">📈</div>
+                        <h3>Carrière</h3>
+                        <p>Salaire, promotion, conditions de travail</p>
+                    </div>
+                    <div class="scenario-btn" data-type="couple">
+                        <div class="icon">💑</div>
+                        <h3>Couple</h3>
+                        <p>Désaccords, décisions importantes, vie de couple</p>
+                    </div>
+                    <div class="scenario-btn" data-type="family">
+                        <div class="icon">👨‍👩‍👧‍👦</div>
+                        <h3>Famille</h3>
+                        <p>Conflits familiaux, héritage, décisions parentales</p>
+                    </div>
+                    <div class="scenario-btn" data-type="selling">
+                        <div class="icon">🏠</div>
+                        <h3>Vente</h3>
+                        <p>Vendre un bien (maison, voiture, objet) à un client</p>
+                    </div>
+                    <div class="scenario-btn" data-type="buying">
+                        <div class="icon">🛒</div>
+                        <h3>Achat</h3>
+                        <p>Acheter un bien auprès d'un vendeur</p>
+                    </div>
+                    <div class="scenario-btn" data-type="hostage">
+                        <div class="icon">🚨</div>
+                        <h3>Prise d'otage</h3>
+                        <p>Négociation de crise, gestion d'urgence</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Écran 2: Chargement -->
+        <div id="screen-loading" class="screen">
+            <div class="card">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <h2 id="loading-title">Génération de votre scénario...</h2>
+                    <p style="color: var(--text-secondary); margin-top: 0.5rem; font-size: 0.95rem;" id="loading-subtitle">L'IA crée une situation de négociation détaillée et réaliste.</p>
+                    
+                    <!-- SAVIEZ-VOUS EN GRAND ET EN ÉVIDENCE -->
+                    <div style="margin: 2.5rem auto 2rem; padding: 2.5rem; background: linear-gradient(135deg, rgba(255, 107, 53, 0.15), rgba(247, 147, 30, 0.15)); border-radius: 16px; border: 3px solid var(--accent-primary); max-width: 700px; box-shadow: 0 8px 32px rgba(255, 107, 53, 0.3);">
+                        <div style="text-align: center; margin-bottom: 1.5rem;">
+                            <span style="font-size: 3rem; display: block; margin-bottom: 0.5rem;">💡</span>
+                            <h3 style="color: var(--accent-primary); font-size: 1.8rem; font-family: 'Playfair Display', serif; margin: 0;">Le saviez-vous ?</h3>
+                        </div>
+                        <p id="loading-tip" style="color: var(--text-primary); line-height: 2; text-align: center; font-size: 1.15rem; font-weight: 500; margin: 0;"></p>
+                    </div>
+
+                    <!-- Progression en plus petit -->
+                    <div style="max-width: 450px; margin: 0 auto;">
+                        <!-- Barre de progression globale -->
+                        <div style="background: var(--bg-hover); height: 6px; border-radius: 10px; overflow: hidden; margin-bottom: 1rem;">
+                            <div id="overall-progress" style="height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary)); transition: width 0.3s ease;"></div>
+                        </div>
+
+                        <div id="loading-steps" style="text-align: left; opacity: 0.7;">
+                            <div class="loading-step" data-step="1" style="padding: 0.4rem; margin: 0.3rem 0; font-size: 0.85rem;">
+                                <span class="step-icon">⏳</span>
+                                <span class="step-text">Analyse du type de négociation...</span>
+                            </div>
+                            <div class="loading-step" data-step="2" style="padding: 0.4rem; margin: 0.3rem 0; font-size: 0.85rem;">
+                                <span class="step-icon">⏳</span>
+                                <span class="step-text">Création des personnages...</span>
+                            </div>
+                            <div class="loading-step" data-step="3" style="padding: 0.4rem; margin: 0.3rem 0; font-size: 0.85rem;">
+                                <span class="step-icon">⏳</span>
+                                <span class="step-text">Définition des enjeux...</span>
+                            </div>
+                            <div class="loading-step" data-step="4" style="padding: 0.4rem; margin: 0.3rem 0; font-size: 0.85rem;">
+                                <span class="step-icon">⏳</span>
+                                <span class="step-text">Contexte narratif...</span>
+                            </div>
+                            <div class="loading-step" data-step="5" style="padding: 0.4rem; margin: 0.3rem 0; font-size: 0.85rem;">
+                                <span class="step-icon">⏳</span>
+                                <span class="step-text">Dialogues réalistes...</span>
+                            </div>
+                            <div class="loading-step" data-step="6" style="padding: 0.4rem; margin: 0.3rem 0; font-size: 0.85rem;">
+                                <span class="step-icon">⏳</span>
+                                <span class="step-text">5 étapes de négociation...</span>
+                            </div>
+                            <div class="loading-step" data-step="7" style="padding: 0.4rem; margin: 0.3rem 0; font-size: 0.85rem;">
+                                <span class="step-icon">⏳</span>
+                                <span class="step-text">Calibrage difficulté...</span>
+                            </div>
+                            <div class="loading-step" data-step="8" style="padding: 0.4rem; margin: 0.3rem 0; font-size: 0.85rem;">
+                                <span class="step-icon">⏳</span>
+                                <span class="step-text">Finalisation...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Écran 3: Sélection des techniques pour la question -->
+        <div id="screen-technique-selection" class="screen">
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-step-select">1</div>
+                    <div class="stat-label">Étape actuelle</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-score-select">0</div>
+                    <div class="stat-label">Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-quality-select">🟢</div>
+                    <div class="stat-label">Qualité de négociation</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1rem;" id="situation-title-select">Situation</h2>
+                <div id="situation-content-select" style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 2rem; font-size: 1.05rem;"></div>
+
+                <div style="background: var(--bg-hover); padding: 1.5rem; border-radius: 12px; margin: 2rem 0;">
+                    <h3 style="color: var(--accent-secondary); margin-bottom: 1rem;">🎯 Quelles techniques souhaitez-vous utiliser ?</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Sélectionnez jusqu'à 3 techniques de négociation que vous pensez être les plus appropriées pour cette situation.</p>
+                    
+                    <div class="technique-grid" id="technique-selection-grid"></div>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn" id="btn-generate-choices" disabled>Voir les options de réponse ➜</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Écran 4: Jeu de négociation -->
+        <div id="screen-game" class="screen">
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-step">1</div>
+                    <div class="stat-label">Étape actuelle</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-score">0</div>
+                    <div class="stat-label">Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-quality">🟢</div>
+                    <div class="stat-label">Qualité de négociation</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1rem;" id="situation-title">Situation</h2>
+                <div id="situation-content" style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 2rem; font-size: 1.05rem;"></div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress" style="width: 0%"></div>
+                </div>
+
+                <h3 style="margin: 2rem 0 1rem;">Que faites-vous ?</h3>
+                <div class="choice-container" id="choices-container"></div>
+
+                <div id="feedback-container"></div>
+            </div>
+        </div>
+
+        <!-- Écran 5: Résultat final -->
+        <div id="screen-result" class="screen">
+            <div class="card">
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 1rem; text-align: center;" id="result-title">Négociation terminée !</h2>
+                
+                <div class="stats" style="margin: 3rem 0;">
+                    <div class="stat-card">
+                        <div class="stat-value" id="final-score">0</div>
+                        <div class="stat-label">Score final</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="final-steps">0</div>
+                        <div class="stat-label">Étapes complétées</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="final-rating">⭐⭐⭐</div>
+                        <div class="stat-label">Évaluation</div>
+                    </div>
+                </div>
+
+                <div id="final-feedback" style="padding: 2rem; background: var(--bg-hover); border-radius: 12px; margin: 2rem 0;"></div>
+
+                <div style="text-align: center; margin-top: 3rem;">
+                    <button class="download-btn" id="btn-download">📥 Télécharger le résumé</button>
+                    <button class="btn" id="btn-restart">Nouvelle simulation</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Données des techniques de négociation
+        const techniques = [
+            {
+                id: 'batna',
+                name: 'BATNA',
+                description: 'Best Alternative To a Negotiated Agreement - Identifiez votre meilleure solution de repli pour renforcer votre position de négociation.'
+            },
+            {
+                id: 'zopa',
+                name: 'ZOPA',
+                description: 'Zone Of Possible Agreement - Identifiez la zone où un accord mutuellement bénéfique est possible entre les parties.'
+            },
+            {
+                id: 'ancrage',
+                name: 'Ancrage',
+                description: 'Établissez un point de référence initial élevé pour influencer favorablement le reste de la négociation.'
+            },
+            {
+                id: 'miroir',
+                name: 'Effet miroir',
+                description: 'Répétez les derniers mots de votre interlocuteur pour l\'encourager à en dire davantage et créer une connexion.'
+            },
+            {
+                id: 'silence',
+                name: 'Silence tactique',
+                description: 'Utilisez le silence stratégiquement pour mettre la pression et obtenir plus d\'informations de l\'autre partie.'
+            },
+            {
+                id: 'ecoute-active',
+                name: 'Écoute active',
+                description: 'Écoutez attentivement pour comprendre les besoins réels et motivations cachées de votre interlocuteur.'
+            },
+            {
+                id: 'harvard',
+                name: 'Méthode Harvard',
+                description: 'Approche gagnant-gagnant : séparez la personne du problème, concentrez-vous sur les intérêts communs, et cherchez des solutions mutuellement bénéfiques.'
+            },
+            {
+                id: 'concessions',
+                name: 'Concessions progressives',
+                description: 'Faites des concessions par petites bouchées tout en demandant systématiquement une contrepartie.'
+            },
+            {
+                id: 'empathie-tactique',
+                name: 'Empathie tactique',
+                description: 'Identifiez et validez les émotions de l\'autre partie pour créer une relation de confiance et désarmer les résistances.'
+            },
+            {
+                id: 'preparation',
+                name: 'Préparation approfondie',
+                description: 'Recherchez et analysez votre interlocuteur, ses motivations, ses contraintes et son contexte avant la négociation.'
+            }
+        ];
+
+        // Glossaire des termes spécialisés par domaine
+        const glossary = {
+            // Termes commerciaux/affaires
+            'services cloud': 'Services informatiques hébergés sur Internet (stockage, calcul, applications) plutôt que sur des serveurs locaux',
+            'fonctionnalités premium': 'Options avancées ou supplémentaires disponibles moyennant un coût additionnel',
+            'support premium': 'Assistance technique prioritaire avec temps de réponse plus rapides',
+            'clause de révision': 'Disposition contractuelle permettant de revoir les termes à une date future',
+            'ROI': 'Return On Investment - Retour sur investissement, mesure de la rentabilité',
+            'KPI': 'Key Performance Indicators - Indicateurs clés de performance',
+            'contrat': 'Accord légal entre parties définissant droits et obligations',
+            'fournisseur': 'Entreprise qui fournit des produits ou services à une autre entreprise',
+            'budget': 'Plan financier détaillant les revenus et dépenses prévus',
+            'formation gratuite': 'Programme d\'apprentissage offert sans frais supplémentaires',
+            'partenariat': 'Relation de collaboration entre entreprises pour atteindre des objectifs communs',
+            'cycle de vente': 'Durée entre le premier contact avec un client et la conclusion de la vente',
+            'fusions-acquisitions': 'Opérations où des entreprises fusionnent ou l\'une acquiert l\'autre',
+            
+            // Termes politiques/diplomatiques
+            'souveraineté alimentaire': 'Droit d\'un pays à définir sa politique agricole et alimentaire',
+            'quotas': 'Limites quantitatives sur les importations ou exportations',
+            'traité': 'Accord formel et contraignant entre États ou organisations internationales',
+            'accord de principe': 'Entente préliminaire sur les points essentiels, avant finalisation',
+            'normes environnementales': 'Règles régissant l\'impact écologique des activités économiques',
+            'clause de sauvegarde': 'Disposition permettant de suspendre temporairement un accord en cas de problème',
+            'pays émergent': 'Pays en développement rapide économiquement',
+            'transfert de technologies': 'Partage de connaissances techniques et savoir-faire entre pays',
+            'puissance économique': 'Pays ou entité ayant une influence majeure sur l\'économie mondiale',
+            'industries locales': 'Secteurs de production établis dans le pays concerné',
+            'accès au marché': 'Possibilité de vendre des produits dans un territoire donné',
+            'fonds de développement': 'Ressources financières dédiées à l\'amélioration économique',
+            'assistance technique': 'Aide sous forme d\'expertise et de savoir-faire',
+            'développement durable': 'Croissance économique respectant l\'environnement et les générations futures',
+            
+            // Termes conflits/médiation
+            'cessez-le-feu': 'Arrêt temporaire ou permanent des hostilités entre parties en conflit',
+            'médiation': 'Intervention d\'une tierce partie neutre pour faciliter la résolution d\'un conflit',
+            'zone démilitarisée': 'Territoire où les forces militaires sont interdites',
+            'concessions mutuelles': 'Compromis réciproques où chaque partie cède quelque chose',
+            
+            // Termes carrière
+            'package de rémunération': 'Ensemble incluant salaire, bonus, avantages sociaux',
+            'télétravail': 'Travail effectué à distance, hors des locaux de l\'entreprise',
+            'prime de performance': 'Rémunération variable basée sur l\'atteinte d\'objectifs',
+            'clause de non-concurrence': 'Engagement à ne pas travailler pour un concurrent pendant une période',
+            'période d\'essai': 'Durée initiale permettant à l\'employeur et l\'employé d\'évaluer la collaboration',
+            'promotion': 'Avancement à un poste supérieur avec plus de responsabilités',
+            'conditions de travail': 'Ensemble des modalités régissant l\'exercice d\'un emploi'
+        };
+
+        // Fonction pour ajouter des tooltips aux termes spécialisés
+        function addTooltips(text) {
+            let processedText = text;
+            
+            for (const [term, definition] of Object.entries(glossary)) {
+                const regex = new RegExp(`\\b(${term})\\b`, 'gi');
+                processedText = processedText.replace(regex, (match) => {
+                    return `<span class="tooltip-term">${match}<span class="tooltip-content">${definition}</span></span>`;
+                });
+            }
+            
+            return processedText;
+        }
+
+        // Astuces de négociation à afficher pendant le chargement (liste étendue)
+        const negotiationTips = [
+            "La préparation représente 80% du succès d'une négociation. Connaître son BATNA (meilleure alternative) avant d'entrer en négociation est crucial.",
+            "L'écoute active est l'une des compétences les plus puissantes en négociation. Écoutez pour comprendre, pas pour répondre.",
+            "Dans la méthode Harvard, on sépare la personne du problème. Restez dur sur les enjeux, mais doux avec les personnes.",
+            "Le silence est une arme redoutable en négociation. Un silence bien placé peut pousser l'autre partie à faire une concession.",
+            "L'ancrage psychologique fonctionne : la première offre influence toute la négociation. Commencez avec une position ambitieuse mais justifiable.",
+            "La ZOPA (Zone Of Possible Agreement) se situe entre le minimum acceptable pour le vendeur et le maximum acceptable pour l'acheteur.",
+            "Cherchez toujours des solutions créatives qui élargissent le gâteau plutôt que de simplement le diviser. C'est l'essence du gagnant-gagnant.",
+            "L'effet miroir (répéter les derniers mots) encourage l'autre à élaborer et révèle souvent plus d'informations.",
+            "Ne jamais révéler votre prix maximum ou vos contraintes en début de négociation. Gardez votre pouvoir de négociation.",
+            "L'empathie tactique consiste à reconnaître les émotions de l'autre sans nécessairement être d'accord. Cela désamorce les tensions.",
+            "Les meilleures négociations créent de la valeur pour les deux parties. Cherchez les intérêts communs plutôt que de vous focaliser sur les positions.",
+            "Préparez toujours plusieurs scénarios et solutions alternatives. La flexibilité est clé dans une négociation dynamique.",
+            "Les concessions doivent toujours être réciproques. Si vous donnez quelque chose, demandez toujours quelque chose en retour.",
+            "Le timing est crucial : savoir quand faire une pause peut être aussi important que savoir quoi dire.",
+            "Les questions ouvertes (Comment? Pourquoi? Qu'est-ce qui...?) révèlent plus d'informations que les questions fermées (Oui/Non).",
+            "Reformuler ce que l'autre dit montre que vous écoutez vraiment et permet de clarifier les malentendus.",
+            "Les émotions mal gérées peuvent faire échouer une négociation. Reconnaissez-les, nommez-les, mais ne les laissez pas vous contrôler.",
+            "Documenter les accords par écrit évite les malentendus futurs. Ce qui n'est pas écrit n'existe pas.",
+            "Les négociateurs experts préparent leurs limites (walk-away point) à l'avance et s'y tiennent.",
+            "Le langage corporel représente 55% de la communication. Observez les signaux non-verbaux de votre interlocuteur.",
+            "Poser des questions de calibrage ('Comment suis-je censé faire ça?') déplace doucement la charge de la solution vers l'autre partie.",
+            "Les premières minutes d'une négociation établissent le ton. Commencez positivement pour créer un climat collaboratif.",
+            "Identifier les véritables intérêts derrière les positions affichées est la clé pour trouver des solutions créatives.",
+            "Les meilleures concessions sont celles qui vous coûtent peu mais ont une grande valeur pour l'autre partie.",
+            "Ne négociez jamais avec vous-même. Attendez que l'autre partie réponde avant de modifier votre position.",
+            "L'urgence artificielle ('Cette offre expire ce soir') est une tactique classique. Ne vous laissez pas presser sans raison valable.",
+            "Préparer des 'si...alors' à l'avance vous permet de réagir rapidement aux contre-propositions sans perdre votre position stratégique.",
+            "Les négociations gagnant-gagnant créent des relations durables, les négociations gagnant-perdant créent des ennemis.",
+            "Savoir dire 'non' poliment mais fermement est aussi important que savoir faire des compromis.",
+            "Les pauses stratégiques permettent de consulter votre équipe, de réfléchir, et de réduire la pression émotionnelle.",
+            "Benchmark vos demandes : si vous demandez 100K de budget, montrez que d'autres projets similaires ont eu 90-110K.",
+            "Les négociations complexes bénéficient d'un ordre du jour clair établi dès le début.",
+            "Ne faites jamais la première concession sur le prix sans obtenir quelque chose en échange (conditions, délais, services).",
+            "L'autorité limitée ('Je dois consulter mon patron') peut être une tactique pour gagner du temps ou éviter de s'engager trop vite.",
+            "Les deadlines créent de la pression. Si possible, connaissez la deadline de l'autre partie (et cachez la vôtre).",
+            "Reformuler une menace en question la désamorce : 'C'est votre dernier mot?' devient 'Qu'est-ce qui vous empêche d'être plus flexible?'",
+            "Les négociations par email laissent une trace mais perdent les nuances émotionnelles. Privilégiez le face-à-face pour les points critiques.",
+            "Anticiper les objections permet de préparer des réponses convaincantes plutôt que de réagir défensivement.",
+            "Les gens sont plus enclins à honorer un accord qu'ils ont contribué à créer. Laissez l'autre partie participer à la solution.",
+            "Un bon négociateur sait quand quitter la table. Parfois, pas d'accord vaut mieux qu'un mauvais accord.",
+            "La règle des 70/30 : écoutez 70% du temps, parlez 30% du temps. Celui qui parle le plus révèle le plus.",
+            "Les concessions progressives (10%, puis 5%, puis 2%) signalent que vous approchez de votre limite.",
+            "Séparer l'inventaire de l'évaluation : listez d'abord tous les points à négocier avant de discuter de la valeur de chacun.",
+            "Les accords conditionnels ('Si vous faites X, je ferai Y') permettent de tester la flexibilité sans s'engager immédiatement.",
+            "Négocier en équipe nécessite une coordination préalable : qui parle, qui observe, qui prend des notes, qui décide.",
+            "Les silences après une proposition forcent l'autre à répondre. Résistez à l'envie de remplir le vide.",
+            "Adapter votre style de communication à celui de votre interlocuteur (visuel, auditif, kinesthésique) améliore la connexion.",
+            "Les questions hypothétiques ('Et si...?') permettent d'explorer des options sans engagement immédiat.",
+            "Célébrer les petits accords en cours de route maintient une dynamique positive et montre la progression.",
+            "Un négociateur préparé connaît non seulement ses chiffres, mais aussi l'histoire, le contexte et les contraintes de l'autre partie."
+        ];
+
+        // Fonction pour afficher des astuces rotatives pendant le chargement
+        function startLoadingAnimation() {
+            let tipIndex = 0;
+            const tipElement = document.getElementById('loading-tip');
+            const progressBar = document.getElementById('overall-progress');
+            
+            // Mélanger les astuces pour avoir un ordre aléatoire à chaque fois
+            const shuffledTips = [...negotiationTips].sort(() => Math.random() - 0.5);
+            
+            // Afficher la première astuce
+            if (tipElement) {
+                tipElement.textContent = shuffledTips[tipIndex];
+            }
+            
+            // Rotation des astuces toutes les 8 secondes (plus lent pour avoir le temps de lire)
+            const tipInterval = setInterval(() => {
+                tipIndex = (tipIndex + 1) % shuffledTips.length;
+                if (tipElement) {
+                    tipElement.style.transition = 'opacity 0.5s ease';
+                    tipElement.style.opacity = '0';
+                    setTimeout(() => {
+                        tipElement.textContent = shuffledTips[tipIndex];
+                        tipElement.style.opacity = '1';
+                    }, 500);
+                }
+            }, 8000);
+            
+            // Animation progressive des étapes
+            const steps = document.querySelectorAll('.loading-step');
+            let currentStep = 0;
+            
+            // Activer la première étape
+            if (steps[0]) {
+                steps[0].classList.add('active');
+                if (progressBar) progressBar.style.width = '12.5%';
+            }
+            
+            // Progression des étapes toutes les 2.5 secondes (8 étapes × 2.5s = 20s)
+            const stepInterval = setInterval(() => {
+                if (currentStep < steps.length) {
+                    // Marquer l'étape actuelle comme complétée
+                    steps[currentStep].classList.remove('active');
+                    steps[currentStep].classList.add('completed');
+                    
+                    currentStep++;
+                    
+                    // Activer l'étape suivante et mettre à jour la barre
+                    if (currentStep < steps.length) {
+                        steps[currentStep].classList.add('active');
+                        if (progressBar) {
+                            const progress = ((currentStep + 1) / steps.length) * 100;
+                            progressBar.style.width = progress + '%';
+                        }
+                    } else {
+                        // Toutes les étapes terminées
+                        if (progressBar) progressBar.style.width = '100%';
+                    }
+                }
+            }, 2500);
+            
+            // Retourner une fonction pour arrêter les animations
+            return () => {
+                clearInterval(tipInterval);
+                clearInterval(stepInterval);
+                // Réinitialiser les étapes
+                steps.forEach(step => {
+                    step.classList.remove('active', 'completed');
+                });
+                if (progressBar) progressBar.style.width = '0%';
+            };
+        }
+
+        let stopLoadingAnimation = null;
+
+        // ========================================
+        // EFFETS VISUELS ET SONORES
+        // ========================================
+        
+        // Créer des confettis
+        function createConfetti() {
+            const colors = ['#ff6b35', '#f7931e', '#4caf50', '#ffc107', '#2196f3'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.style.position = 'fixed';
+                    confetti.style.width = '10px';
+                    confetti.style.height = '10px';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.left = Math.random() * window.innerWidth + 'px';
+                    confetti.style.top = '-20px';
+                    confetti.style.zIndex = '9999';
+                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                    confetti.style.pointerEvents = 'none';
+                    
+                    const animation = confetti.animate([
+                        { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                        { transform: `translateY(${window.innerHeight}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+                    ], {
+                        duration: 3000 + Math.random() * 1000,
+                        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                    });
+                    
+                    document.body.appendChild(confetti);
+                    
+                    animation.onfinish = () => confetti.remove();
+                }, i * 30);
+            }
+        }
+
+        // Afficher texte flottant
+        function showFloatingText(text, type = 'success') {
+            const colors = {
+                success: '#4caf50',
+                danger: '#f44336',
+                warning: '#ffc107',
+                xp: '#ff6b35'
+            };
+            
+            const floatingText = document.createElement('div');
+            floatingText.textContent = text;
+            floatingText.style.position = 'fixed';
+            floatingText.style.left = '50%';
+            floatingText.style.top = '30%';
+            floatingText.style.transform = 'translateX(-50%)';
+            floatingText.style.color = colors[type] || colors.success;
+            floatingText.style.fontSize = '2rem';
+            floatingText.style.fontWeight = 'bold';
+            floatingText.style.zIndex = '10000';
+            floatingText.style.pointerEvents = 'none';
+            floatingText.style.textShadow = '0 0 10px rgba(0,0,0,0.5)';
+            
+            document.body.appendChild(floatingText);
+            
+            const animation = floatingText.animate([
+                { opacity: 0, transform: 'translateX(-50%) translateY(0)' },
+                { opacity: 1, transform: 'translateX(-50%) translateY(-20px)', offset: 0.2 },
+                { opacity: 1, transform: 'translateX(-50%) translateY(-40px)', offset: 0.8 },
+                { opacity: 0, transform: 'translateX(-50%) translateY(-100px)' }
+            ], {
+                duration: 2000,
+                easing: 'ease-out'
+            });
+            
+            animation.onfinish = () => floatingText.remove();
+        }
+
+        // Système de sons (beeps simples)
+        function playSound(type) {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                // Fréquences selon le type
+                const frequencies = {
+                    xp: 440,
+                    levelup: 880,
+                    success: 660,
+                    error: 220,
+                    click: 330
+                };
+                
+                const durations = {
+                    xp: 0.1,
+                    levelup: 0.3,
+                    success: 0.2,
+                    error: 0.3,
+                    click: 0.05
+                };
+                
+                oscillator.frequency.value = frequencies[type] || 440;
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + (durations[type] || 0.2));
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + (durations[type] || 0.2));
+            } catch (e) {
+                // Silently fail if audio not supported
+                console.log('Audio not supported');
+            }
+        }
+
+        // Fonction pour afficher l'écran des badges
+        function showBadgesScreen() {
+            const badgesHTML = `
+                <div style="max-width: 1000px; margin: 0 auto; padding: 2rem;">
+                    <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; text-align: center; margin-bottom: 2rem;">
+                        🏆 Vos Badges
+                    </h2>
+                    
+                    <div style="text-align: center; margin-bottom: 2rem;">
+                        <p style="font-size: 1.2rem;">${playerProfile.badges.length} / ${Object.keys(badges).length} badges débloqués</p>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem;">
+                        ${Object.values(badges).map(badge => {
+                            const unlocked = playerProfile.badges.includes(badge.id);
+                            return `
+                                <div style="
+                                    background: var(--bg-card);
+                                    border: 2px solid ${unlocked ? 'var(--accent-primary)' : 'var(--border-color)'};
+                                    border-radius: 12px;
+                                    padding: 1.5rem;
+                                    text-align: center;
+                                    ${unlocked ? '' : 'opacity: 0.4; filter: grayscale(1);'}
+                                ">
+                                    <div style="font-size: 3rem; margin-bottom: 0.5rem;">${badge.icon}</div>
+                                    <h3 style="margin: 0.5rem 0;">${badge.name}</h3>
+                                    <p style="color: var(--text-secondary); font-size: 0.9rem;">${badge.description}</p>
+                                    ${unlocked ? `<p style="color: var(--accent-primary); margin-top: 0.5rem;">✓ Débloqué</p>` : `<p style="color: var(--text-secondary); margin-top: 0.5rem;">🔒 Verrouillé</p>`}
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <button class="btn" onclick="resetGame()">← Retour au Menu</button>
+                    </div>
+                </div>
+            `;
+            
+            showScreen('screen-results');
+            document.getElementById('results-container').innerHTML = badgesHTML;
+        }
+
+        // Fonction pour générer et insérer une image illustrative directement dans le DOM
+        function generateAndInsertSceneImage(prompt, containerId) {
+            console.log('generateAndInsertSceneImage appelée pour:', prompt);
+            
+            // Créer le hash
+            const hash = Math.abs(prompt.split('').reduce((a, b) => {
+                a = ((a << 5) - a) + b.charCodeAt(0);
+                return a & a;
+            }, 0));
+            
+            // Choisir des couleurs
+            let hue1, hue2, icon;
+            const lowerPrompt = prompt.toLowerCase();
+            
+            if (lowerPrompt.includes('office') || lowerPrompt.includes('meeting') || lowerPrompt.includes('business') || lowerPrompt.includes('corporate')) {
+                hue1 = 210; hue2 = 240; icon = '💼';
+            } else if (lowerPrompt.includes('home') || lowerPrompt.includes('family')) {
+                hue1 = 30; hue2 = 50; icon = '🏠';
+            } else if (lowerPrompt.includes('crisis') || lowerPrompt.includes('hostage')) {
+                hue1 = 0; hue2 = 20; icon = '🚨';
+            } else if (lowerPrompt.includes('diplomatic') || lowerPrompt.includes('government') || lowerPrompt.includes('conference') || lowerPrompt.includes('international')) {
+                hue1 = 200; hue2 = 220; icon = '🏛️';
+            } else {
+                hue1 = hash % 360;
+                hue2 = (hue1 + 60) % 360;
+                icon = '🎬';
+            }
+            
+            const words = prompt.split(' ');
+            const title = words.slice(0, 4).join(' ');
+            const subtitle = words.slice(4, 8).join(' ');
+            
+            // Créer le SVG directement en HTML
+            const svgHTML = `
+                <div class="scene-image" style="margin-bottom: 2rem; border-radius: 12px; overflow: hidden; border: 2px solid var(--border-color); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" style="width: 100%; height: auto; display: block;">
+                        <defs>
+                            <linearGradient id="bg${hash}" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:hsl(${hue1}, 70%, 25%);stop-opacity:1" />
+                                <stop offset="50%" style="stop-color:hsl(${(hue1+hue2)/2}, 60%, 30%);stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:hsl(${hue2}, 70%, 35%);stop-opacity:1" />
+                            </linearGradient>
+                            <filter id="glow${hash}">
+                                <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        
+                        <rect width="1200" height="600" fill="url(#bg${hash})"/>
+                        
+                        <circle cx="150" cy="150" r="120" fill="hsl(${hue1}, 50%, 35%)" opacity="0.4"/>
+                        <circle cx="1050" cy="450" r="180" fill="hsl(${hue2}, 50%, 35%)" opacity="0.4"/>
+                        
+                        <rect x="250" y="120" width="700" height="360" rx="30" fill="hsl(${hue1}, 40%, 20%)" opacity="0.7"/>
+                        
+                        <text x="600" y="280" text-anchor="middle" font-size="140" filter="url(#glow${hash})">${icon}</text>
+                        
+                        <text x="600" y="400" text-anchor="middle" fill="white" font-size="36" font-family="Arial, sans-serif" font-weight="bold" opacity="0.95">
+                            ${title}
+                        </text>
+                        
+                        <text x="600" y="450" text-anchor="middle" fill="white" font-size="22" font-family="Arial, sans-serif" opacity="0.8">
+                            ${subtitle}
+                        </text>
+                    </svg>
+                    <div class="scene-caption" style="background: var(--bg-hover); padding: 0.75rem 1rem; font-size: 0.85rem; color: var(--text-secondary); font-style: italic; border-top: 1px solid var(--border-color);">
+                        🎨 ${prompt}
+                    </div>
+                </div>
+            `;
+            
+            // Insérer au début du conteneur
+            const container = document.getElementById(containerId);
+            if (container) {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = svgHTML;
+                container.insertBefore(tempDiv.firstElementChild, container.firstChild);
+                console.log('Image insérée dans', containerId);
+            } else {
+                console.error('Container not found:', containerId);
+            }
+        }
+
+        // État du jeu
+        let gameState = {
+            scenarioType: '',
+            currentStep: 0,
+            score: 0,
+            maxSteps: 5,
+            scenario: null,
+            history: [],
+            currentTechniques: [],
+            characters: {}, // Personnages de la négociation
+            pressure: 30, // Niveau de pression/tension (0-100)
+            relationship: 50, // Qualité de la relation (0-100)
+            failed: false, // Nouveau: échec de négociation
+            failureReason: null,
+            startTime: null // Pour calculer la durée
+        };
+
+        // Profil joueur avec XP et badges
+        let playerProfile = {
+            level: 1,
+            xp: 0,
+            totalXP: 0,
+            xpToNextLevel: 100,
+            badges: [],
+            stats: {
+                totalNegotiations: 0,
+                successfulNegotiations: 0,
+                failedNegotiations: 0,
+                perfectScores: 0,
+                totalScore: 0,
+                averageScore: 0,
+                scenariosPlayed: {},
+                techniquesUsed: {},
+                currentStreak: 0,
+                bestStreak: 0,
+                lowestRelationship: 100
+            }
+        };
+
+        // Charger le profil depuis localStorage
+        function loadPlayerProfile() {
+            const saved = localStorage.getItem('negotiatorProfile');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    Object.assign(playerProfile, parsed);
+                    console.log('✅ Profil chargé:', playerProfile);
+                } catch (e) {
+                    console.error('Erreur chargement profil:', e);
+                }
+            }
+            updateProfileDisplay();
+        }
+
+        // Sauvegarder le profil
+        function savePlayerProfile() {
+            localStorage.setItem('negotiatorProfile', JSON.stringify(playerProfile));
+            console.log('💾 Profil sauvegardé');
+        }
+
+        // Mettre à jour l'affichage du profil
+        function updateProfileDisplay() {
+            // Mettre à jour les éléments HTML
+            const levelEl = document.getElementById('display-level');
+            const xpEl = document.getElementById('display-xp');
+            const xpNextEl = document.getElementById('display-xp-next');
+            const xpBarEl = document.getElementById('display-xp-bar');
+            const badgesEl = document.getElementById('display-badges');
+            
+            if (levelEl) levelEl.textContent = playerProfile.level;
+            if (xpEl) xpEl.textContent = playerProfile.xp;
+            if (xpNextEl) xpNextEl.textContent = playerProfile.xpToNextLevel;
+            if (badgesEl) badgesEl.textContent = playerProfile.badges.length;
+            
+            if (xpBarEl) {
+                const xpPercent = (playerProfile.xp / playerProfile.xpToNextLevel) * 100;
+                xpBarEl.style.width = xpPercent + '%';
+            }
+            
+            console.log(`Niveau ${playerProfile.level} - ${playerProfile.xp}/${playerProfile.xpToNextLevel} XP - ${playerProfile.badges.length} badges`);
+        }
+
+        // Système de badges
+        const badges = {
+            first_win: {
+                id: "first_win",
+                name: "Première Victoire",
+                icon: "🎉",
+                description: "Réussir votre première négociation",
+                xpReward: 50,
+                condition: (profile) => profile.stats.successfulNegotiations >= 1
+            },
+            perfect_score: {
+                id: "perfect_score",
+                name: "Perfection",
+                icon: "💯",
+                description: "Obtenir un score parfait (500/500)",
+                xpReward: 200,
+                condition: (profile) => profile.stats.perfectScores >= 1
+            },
+            streak_5: {
+                id: "streak_5",
+                name: "En Feu",
+                icon: "🔥",
+                description: "5 négociations réussies d'affilée",
+                xpReward: 150,
+                condition: (profile) => profile.stats.currentStreak >= 5
+            },
+            master_empathy: {
+                id: "master_empathy",
+                name: "Maître de l'Empathie",
+                icon: "❤️",
+                description: "Utiliser l'empathie tactique 10 fois",
+                xpReward: 100,
+                condition: (profile) => (profile.stats.techniquesUsed['empathie-tactique'] || 0) >= 10
+            },
+            comeback_kid: {
+                id: "comeback_kid",
+                name: "Phoenix",
+                icon: "🔄",
+                description: "Gagner après être tombé sous 25% de relation",
+                xpReward: 250,
+                unlocked: false
+            },
+            survivor: {
+                id: "survivor",
+                name: "Survivant",
+                icon: "💪",
+                description: "Éviter l'échec alors que la relation était à 20%",
+                xpReward: 200,
+                unlocked: false
+            },
+            business_master: {
+                id: "business_master",
+                name: "As des Affaires",
+                icon: "💼",
+                description: "Réussir 5 négociations business",
+                xpReward: 150,
+                condition: (profile) => (profile.stats.scenariosPlayed['business'] || 0) >= 5
+            },
+            diplomat: {
+                id: "diplomat",
+                name: "Diplomate",
+                icon: "🏛️",
+                description: "Réussir 5 négociations politiques",
+                xpReward: 150,
+                condition: (profile) => (profile.stats.scenariosPlayed['politics'] || 0) >= 5
+            }
+        };
+
+        // Vérifier et débloquer les badges
+        function checkAndUnlockBadges() {
+            let newBadges = [];
+            
+            for (const [badgeId, badge] of Object.entries(badges)) {
+                // Si déjà débloqué, skip
+                if (playerProfile.badges.includes(badgeId)) continue;
+                
+                // Vérifier la condition
+                if (badge.condition && badge.condition(playerProfile)) {
+                    playerProfile.badges.push(badgeId);
+                    newBadges.push(badge);
+                    console.log(`🏆 Badge débloqué: ${badge.name}`);
+                }
+            }
+            
+            // Afficher les nouveaux badges
+            if (newBadges.length > 0) {
+                showBadgeUnlocked(newBadges);
+            }
+            
+            return newBadges;
+        }
+
+        // Afficher badge débloqué
+        function showBadgeUnlocked(badgesList) {
+            for (const badge of badgesList) {
+                setTimeout(() => {
+                    createConfetti();
+                    playSound('success');
+                    showFloatingText(`${badge.icon} ${badge.name} débloqué!`, 'success');
+                    
+                    // Donner XP bonus
+                    if (badge.xpReward) {
+                        awardXP(badge.xpReward, `Badge ${badge.name}`);
+                    }
+                }, 500);
+            }
+        }
+
+        // Donner de l'XP
+        function awardXP(amount, reason = "") {
+            playerProfile.xp += amount;
+            playerProfile.totalXP += amount;
+            
+            console.log(`+${amount} XP${reason ? ' (' + reason + ')' : ''}`);
+            showFloatingText(`+${amount} XP`, 'success');
+            playSound('xp');
+            
+            // Level up?
+            while (playerProfile.xp >= playerProfile.xpToNextLevel) {
+                levelUp();
+            }
+            
+            updateProfileDisplay();
+            savePlayerProfile();
+        }
+
+        // Level up
+        function levelUp() {
+            playerProfile.level++;
+            playerProfile.xp -= playerProfile.xpToNextLevel;
+            playerProfile.xpToNextLevel = Math.floor(playerProfile.xpToNextLevel * 1.5);
+            
+            console.log(`🎊 NIVEAU ${playerProfile.level} !`);
+            showFloatingText(`🎉 NIVEAU ${playerProfile.level}!`, 'success');
+            createConfetti();
+            playSound('levelup');
+            
+            alert(`🎊 Félicitations !\n\nVous êtes maintenant niveau ${playerProfile.level} !`);
+        }
+
+        // Fins multiples selon le score
+        const endings = {
+            catastrophic: {
+                minScore: 0,
+                maxScore: 150,
+                title: "💥 Désastre Total",
+                icon: "💥",
+                description: "Non seulement vous n'avez pas obtenu d'accord, mais votre réputation est ternie. L'autre partie est partie furieuse et refuse tout contact futur.",
+                xp: 10,
+                color: "#f44336"
+            },
+            failure: {
+                minScore: 151,
+                maxScore: 250,
+                title: "❌ Échec de Négociation",
+                icon: "❌",
+                description: "Aucun accord n'a été trouvé. L'autre partie est partie insatisfaite et cherchera probablement ailleurs.",
+                xp: 30,
+                color: "#ff9800"
+            },
+            partial: {
+                minScore: 251,
+                maxScore: 350,
+                title: "🤝 Accord Partiel",
+                icon: "🤝",
+                description: "Un accord minimal a été trouvé, mais personne n'est vraiment satisfait. La relation reste tendue.",
+                xp: 60,
+                color: "#ffc107"
+            },
+            success: {
+                minScore: 351,
+                maxScore: 449,
+                title: "✅ Négociation Réussie",
+                icon: "✅",
+                description: "Excellent travail ! Un bon accord a été trouvé. Les deux parties sont satisfaites et prêtes à collaborer.",
+                xp: 100,
+                color: "#4caf50"
+            },
+            masterful: {
+                minScore: 450,
+                maxScore: 500,
+                title: "🏆 Négociation Magistrale",
+                icon: "🏆",
+                description: "Performance exceptionnelle ! Votre interlocuteur est impressionné et souhaite absolument retravailler avec vous. Vous êtes un vrai maître négociateur !",
+                xp: 200,
+                color: "#ff6b35"
+            }
+        };
+
+        // Déterminer la fin selon le score
+        function getEnding(finalScore) {
+            for (const [key, ending] of Object.entries(endings)) {
+                if (finalScore >= ending.minScore && finalScore <= ending.maxScore) {
+                    return ending;
+                }
+            }
+            return endings.failure; // Par défaut
+        }
+
+        // Vérifier si la négociation a échoué
+        function checkForFailure() {
+            // Échec si relation trop basse
+            if (gameState.relationship < 20) {
+                gameState.failed = true;
+                gameState.failureReason = {
+                    type: 'relationship',
+                    title: '💔 Rupture de Négociation',
+                    message: `${gameState.characters.opponent.name} se lève brusquement et range ses affaires.\n\n"Je ne peux pas continuer cette discussion. La confiance est rompue. Bonne journée."\n\nLa relation est tombée à ${gameState.relationship}%. C'est irréparable.`
+                };
+                return true;
+            }
+            
+            // Échec si pression trop élevée
+            if (gameState.pressure > 90) {
+                gameState.failed = true;
+                gameState.failureReason = {
+                    type: 'pressure',
+                    title: '⚠️ Situation de Crise',
+                    message: `La tension est devenue insoutenable (${gameState.pressure}%).\n\n${gameState.characters.opponent.name} frappe du poing sur la table : "C'est inacceptable ! Je mets fin à cette négociation."\n\nVous avez créé trop de pression sans jamais désamorcer.`
+                };
+                return true;
+            }
+            
+            return false;
+        }
+
+        // Afficher l'écran d'échec
+        function showFailureScreen() {
+            const reason = gameState.failureReason;
+            
+            // Jouer son d'erreur
+            playSound('error');
+            
+            // Shake l'écran
+            document.body.classList.add('shake');
+            setTimeout(() => document.body.classList.remove('shake'), 500);
+            
+            // Stats de la négociation échouée
+            playerProfile.stats.totalNegotiations++;
+            playerProfile.stats.failedNegotiations++;
+            playerProfile.stats.currentStreak = 0; // Reset streak
+            
+            // Sauvegarder
+            savePlayerProfile();
+            
+            const failureHTML = `
+                <div class="ending-screen" style="animation: slideIn 0.8s;">
+                    <div class="ending-icon" style="font-size: 5rem;">${reason.type === 'relationship' ? '💔' : '⚠️'}</div>
+                    <h2 style="color: var(--danger); font-size: 2.5rem; margin: 1rem 0;">${reason.title}</h2>
+                    
+                    <div style="background: var(--bg-card); padding: 2rem; border-radius: 16px; max-width: 600px; margin: 2rem auto; border: 2px solid var(--danger);">
+                        <p style="white-space: pre-line; line-height: 1.8; font-size: 1.1rem;">${reason.message}</p>
+                    </div>
+                    
+                    <div style="background: var(--bg-hover); padding: 1.5rem; border-radius: 12px; max-width: 500px; margin: 2rem auto;">
+                        <h3 style="color: var(--accent-secondary); margin-bottom: 1rem;">📊 Analyse de l'Échec</h3>
+                        <div style="text-align: left;">
+                            <p>• Score final : <strong>${gameState.score}/500</strong></p>
+                            <p>• Relation finale : <strong>${gameState.relationship}%</strong> ${gameState.relationship < 20 ? '(❌ Critique)' : ''}</p>
+                            <p>• Pression finale : <strong>${gameState.pressure}%</strong> ${gameState.pressure > 90 ? '(❌ Critique)' : ''}</p>
+                            <p>• Étape atteinte : <strong>${gameState.currentStep + 1}/5</strong></p>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(255, 107, 53, 0.1); padding: 1.5rem; border-radius: 12px; max-width: 600px; margin: 2rem auto; border-left: 3px solid var(--accent-primary);">
+                        <h3 style="color: var(--accent-primary); margin-bottom: 1rem;">💡 Conseils pour la Prochaine Fois</h3>
+                        <ul style="text-align: left; line-height: 1.8;">
+                            ${reason.type === 'relationship' ? `
+                                <li>Utilisez plus d'<strong>empathie tactique</strong></li>
+                                <li>Écoutez activement votre interlocuteur</li>
+                                <li>Évitez les positions trop agressives</li>
+                                <li>Cherchez des solutions gagnant-gagnant</li>
+                            ` : `
+                                <li>Utilisez le <strong>silence</strong> pour réduire la tension</li>
+                                <li>Proposez des pauses dans la négociation</li>
+                                <li>Faites des concessions progressives</li>
+                                <li>Reconnaissez les émotions de l'autre</li>
+                            `}
+                        </ul>
+                    </div>
+                    
+                    <div style="margin-top: 2rem;">
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">Vous avez gagné <strong>10 XP</strong> (échec)</p>
+                    </div>
+                    
+                    <button class="btn" onclick="resetGame()" style="margin-top: 1rem;">🔄 Réessayer</button>
+                </div>
+            `;
+            
+            showScreen('screen-results');
+            document.getElementById('results-container').innerHTML = failureHTML;
+            
+            // Donner quand même un peu d'XP
+            awardXP(10, 'Échec - Leçon apprise');
+        }
+        function init() {
+            loadPlayerProfile(); // Charger le profil joueur
+            setupEventListeners();
+        }
+
+        // Configuration des écouteurs d'événements
+        function setupEventListeners() {
+            document.querySelectorAll('.scenario-btn').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    gameState.scenarioType = btn.dataset.type;
+                    gameState.startTime = Date.now(); // Démarrer le chrono
+                    gameState.failed = false;
+                    gameState.failureReason = null;
+                    playerProfile.stats.lowestRelationship = 100; // Reset tracker
+                    showScreen('screen-loading');
+                    stopLoadingAnimation = startLoadingAnimation(); // Démarrer l'animation
+                    await generateScenario();
+                });
+            });
+
+            document.getElementById('btn-restart').addEventListener('click', () => {
+                resetGame();
+            });
+
+            // Event listener pour le téléchargement (sera attaché dynamiquement après l'affichage des résultats)
+        }
+
+        // Afficher un écran
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        // Scénarios de secours
+        const fallbackScenarios = {
+            business: {
+                title: "Le Contrat Cloud Stratégique",
+                context: "Vous êtes Sarah Chen, Directrice des Achats IT chez TechNova, une scale-up en pleine croissance. La salle de réunion du 15ème étage baigne dans une lumière tamisée. Face à vous, Marc Dubois de CloudPro Solutions ajuste ses lunettes avec un sourire confiant. Votre budget annuel de 40 000€ est déjà tendu, mais vos équipes ont absolument besoin de ces services cloud pour supporter la croissance de 300% prévue cette année. L\'enjeu est crucial : sans cet accord, vous risquez de ralentir toute votre expansion.",
+                scene_image_prompt: "Modern corporate meeting room, two business professionals negotiating across table, laptop and documents visible",
+                player: {
+                    name: "Sarah Chen",
+                    avatar: "👩‍💼",
+                    goal: "Obtenir le meilleur contrat possible dans la limite du budget"
+                },
+                opponent: {
+                    name: "Marc Dubois",
+                    avatar: "👨‍💼",
+                    goal: "Maximiser la valeur du contrat",
+                    personality: "Commercial aguerri et persuasif"
+                },
+                steps: [
+                    {
+                        narrative: "Marc ouvre son laptop et fait glisser une présentation élégante sur la table. L\'odeur de café frais flotte dans l\'air. Il a l\'air détendu, presque trop.",
+                        dialogue: "Sarah, ravi de vous rencontrer. J\'ai préparé une offre sur mesure pour TechNova : notre package premium à 50 000€ par an. Ça inclut toutes nos fonctionnalités avancées, le support 24/7, et une équipe dédiée. C\'est vraiment l\'offre qu\'il vous faut pour votre croissance.",
+                        thought: "50 000€... C\'est 25% au-dessus de mon budget. Il commence fort. Je dois établir un ancrage plus favorable, mais comment?",
+                        situation: "Marc vous présente une offre à 50 000€ par an pour des services cloud premium. Votre budget maximum est de 40 000€, mais vous ne voulez pas le révéler tout de suite. Il semble confiant et a probablement d\'autres clients en attente. Vous devez établir votre position sans paraître désespérée.",
+                        image_prompt: "Business presentation on laptop screen showing pricing, confident salesman gesturing",
+                        pressure: 40,
+                        relationship: 60,
+                        choices: [
+                            {
+                                text: "Je souris et réponds calmement : \'Marc, j\\'apprécie l\\'offre, mais soyons francs. Nous avons reçu une proposition de votre concurrent AzureWave à 35 000€ pour des services similaires. Comment pouvez-vous être compétitif face à cela?\'",
+                                preview: "Vous établissez un point d\\'ancrage plus bas et créez une pression concurrentielle",
+                                technique: "ancrage",
+                                quality: "excellent",
+                                feedback: "Excellente utilisation de l\'ancrage! Vous établissez un point de référence à 35 000€, bien en dessous de votre budget maximum. Cela force Marc à justifier son prix et vous donne une marge de négociation confortable. Mentionner un concurrent crédibilise votre BATNA.",
+                                emotion: "😊"
+                            },
+                            {
+                                text: "Je demande simplement : \'Le prix est-il négociable?\'",
+                                preview: "Question trop directe qui révèle votre faiblesse",
+                                technique: null,
+                                quality: "medium",
+                                feedback: "Approche trop passive. Vous donnez le contrôle total à Marc sans établir votre position de négociation. Il saura que vous êtes intéressée mais peut maintenir son prix élevé. Aucun levier créé.",
+                                emotion: "😐"
+                            },
+                            {
+                                text: "J\\'explique en détail : \'Notre budget est serré, nous sommes une scale-up, nous avons beaucoup de charges, nos investisseurs nous mettent la pression sur les coûts...\'",
+                                preview: "Vous révélez trop de faiblesses et perdez votre pouvoir de négociation",
+                                technique: null,
+                                quality: "bad",
+                                feedback: "Erreur majeure! Vous révélez toutes vos contraintes et votre position de faiblesse. Marc sait maintenant que vous êtes sous pression et peut maintenir un prix élevé. Ne jamais exposer ses vulnérabilités en début de négociation.",
+                                emotion: "😟"
+                            },
+                            {
+                                text: "Je répète lentement : \'50 000 euros...?\' puis je me tais en le regardant.",
+                                preview: "Le silence crée une pression subtile pour qu\'il justifie ou ajuste",
+                                technique: "miroir",
+                                quality: "good",
+                                feedback: "Bonne technique du miroir couplée au silence! Vous renvoyez son prix avec un ton interrogatif, ce qui l\'encourage à élaborer, justifier ou même à proposer une alternative. Le silence qui suit augmente la pression psychologique.",
+                                emotion: "🤔"
+                            }
+                        ]
+                    },
+                    {
+                        narrative: "Marc se redresse et commence à défendre son prix avec assurance. Il énumère rapidement les fonctionnalités.",
+                        dialogue: "Sarah, regardez bien ce que nous offrons : analytics avancés, machine learning intégré, support 24/7, équipe dédiée... Nos concurrents n\'ont pas tout ça. C\'est pour cela que notre prix est justifié.",
+                        thought: "Il parle vite et liste beaucoup de features. Lesquelles sont vraiment importantes pour nous?",
+                        situation: "Marc défend son prix en listant toutes les fonctionnalités premium. Il parle rapidement, essayant de justifier le coût. Vous devez comprendre quelles fonctionnalités sont vraiment essentielles et lesquelles pourraient être négociables.",
+                        pressure: 45,
+                        relationship: 58,
+                        choices: [
+                            {
+                                text: "Je l'écoute attentivement jusqu'au bout, je prends des notes, puis je dis : 'Marc, quelles sont les fonctionnalités vraiment essentielles selon vous pour notre croissance?'",
+                                preview: "Vous identifiez ses priorités pour négocier un package personnalisé",
+                                technique: "ecoute-active",
+                                quality: "excellent",
+                                feedback: "Parfait! L'écoute active vous permet d'identifier ce qui est vraiment important pour lui et où négocier. En demandant les features essentielles, vous ouvrez la porte à une négociation modulaire.",
+                                emotion: "😊"
+                            },
+                            {
+                                text: "Je l'interromps : 'Marc, toutes ces fonctionnalités c'est bien, mais nous n'avons pas besoin de tout ça.'",
+                                preview: "Vous risquez de le braquer en dévaluant son offre",
+                                technique: null,
+                                quality: "bad",
+                                feedback: "Trop agressif. Vous l'interrompez et dévaluez son offre, créant une confrontation. De plus, vous minimisez vos besoins.",
+                                emotion: "😡"
+                            },
+                            {
+                                text: "Après son argumentaire, je reste silencieux quelques secondes en le regardant, puis je hoche simplement la tête.",
+                                preview: "Le silence l'oblige à combler le vide",
+                                technique: "silence",
+                                quality: "good",
+                                feedback: "Bonne utilisation du silence tactique! Votre silence crée un malaise qu'il voudra combler, potentiellement avec une meilleure offre.",
+                                emotion: "🤔"
+                            },
+                            {
+                                text: "Je propose immédiatement : 'OK, alors faisons 40 000€ et on signe aujourd'hui.'",
+                                preview: "Vous révélez votre limite maximale trop tôt",
+                                technique: null,
+                                quality: "medium",
+                                feedback: "Trop rapide! Vous révélez votre prix maximum sans explorer les options (support, durée, formation).",
+                                emotion: "😐"
+                            }
+                        ]
+                    },
+                    {
+                        narrative: "Marc hésite un instant. Vous sentez qu\'il a encore de la marge. Il tapote nerveusement son stylo.",
+                        dialogue: "Bon, je vois que vous êtes sérieuse. Je peux descendre à 47 000 euros, mais c\'est vraiment ma limite. À ce prix, vous avez tout le package complet.",
+                        thought: "47 000... C\'est encore 7 000 au-dessus de mon budget. Comment puis-je le faire descendre encore?",
+                        situation: "Le commercial propose 47000 euros. La négociation semble bloquée mais vous sentez qu\'il y a encore de la flexibilité. C\'est le moment de trouver des solutions créatives ou d\'utiliser votre BATNA.",
+                        pressure: 55,
+                        relationship: 55,
+                        choices: [
+                            {
+                                text: "Je propose : 'Et si nous trouvions une solution créative? Moins de fonctionnalités premium contre un meilleur prix, mais les essentielles pour notre croissance.'",
+                                preview: "Approche gagnant-gagnant qui crée de la valeur",
+                                technique: "harvard",
+                                quality: "excellent",
+                                feedback: "Excellent! Approche gagnant-gagnant typique de la méthode Harvard. Vous cherchez à créer de la valeur plutôt que de simplement diviser le gâteau.",
+                                emotion: "😊"
+                            },
+                            {
+                                text: "J'accepte : 'OK Marc, 47 000€, on signe.'",
+                                preview: "Vous cédez sans explorer d'autres options",
+                                technique: null,
+                                quality: "bad",
+                                feedback: "Vous cédez trop facilement sans explorer d'autres options ni obtenir de contrepartie. Vous auriez pu négocier plus.",
+                                emotion: "😐"
+                            },
+                            {
+                                text: "Je mentionne calmement : 'Marc, je dois être transparent. AzureWave et CloudNova sont aussi sur la table. J'aimerais vraiment travailler avec vous, mais...'",
+                                preview: "Vous rappelez vos alternatives pour renforcer votre position",
+                                technique: "batna",
+                                quality: "good",
+                                feedback: "Bien! Vous rappelez votre BATNA pour montrer que vous avez des alternatives crédibles sans être menaçant.",
+                                emotion: "🤔"
+                            },
+                            {
+                                text: "Je contre : '42 000€ sur 2 ans, qu'en pensez-vous?' et j'attends sa réaction.",
+                                preview: "Concession progressive mais sans contrepartie claire",
+                                technique: "concessions",
+                                quality: "good",
+                                feedback: "Bonne progression par petites étapes. Idéalement, demandez une contrepartie (support, formation, etc.).",
+                                emotion: "😐"
+                            }
+                        ]
+                    },
+                    {
+                        narrative: "Marc semble maintenant plus ouvert. Il se penche vers vous, signe qu\'il est prêt à négocier sérieusement.",
+                        dialogue: "OK Sarah, voici ma meilleure offre : 44 000 euros, mais seulement si vous signez un contrat de 2 ans. Ça me donne de la visibilité et je peux justifier ce prix auprès de ma direction.",
+                        thought: "44 000 sur 2 ans... C\'est toujours au-dessus de mon budget annuel de 40 000. Mais peut-être puis-je obtenir quelque chose en plus?",
+                        situation: "Le commercial accepte 44000 euros si vous signez pour 2 ans. Votre budget annuel permet 40000 euros maximum. C\'est le moment de demander des contreparties ou de trouver un compromis créatif.",
+                        pressure: 60,
+                        relationship: 52,
+                        choices: [
+                            {
+                                text: "Vous dites: Je comprends votre besoin de sécurité. Si j\\'accepte 2 ans à 44000, pouvez-vous inclure le support premium?",
+                                technique: "empathie-tactique",
+                                quality: "excellent",
+                                feedback: "Parfait! Vous validez ses besoins tout en négociant une contrepartie pour justifier le dépassement."
+                            },
+                            {
+                                text: "Vous refusez catégoriquement car c\'est au-dessus du budget",
+                                technique: null,
+                                quality: "bad",
+                                feedback: "Trop rigide. Vous fermez la porte à une solution qui pourrait être acceptable avec des ajustements."
+                            },
+                            {
+                                text: "Vous demandez si on peut faire 40000 euros sur 2 ans sans les fonctionnalités premium",
+                                technique: "harvard",
+                                quality: "good",
+                                feedback: "Bien! Vous cherchez une solution alternative qui respecte votre contrainte budgétaire."
+                            },
+                            {
+                                text: "Vous proposez 41000 euros sur 2 ans avec une clause de révision",
+                                technique: "concessions",
+                                quality: "good",
+                                feedback: "Bonne approche! Concession progressive avec une sécurité pour l\'avenir."
+                            }
+                        ]
+                    },
+                    {
+                        narrative: "Marc sourit. Vous sentez que vous touchez au but. Il tape quelques chiffres sur sa calculatrice.",
+                        dialogue: "D\'accord Sarah, je vois qu\'on peut travailler ensemble. Proposition finale : 42 000 euros par an sur 2 ans, avec le support premium inclus ET une formation gratuite pour votre équipe. C\'est win-win pour nous deux.",
+                        thought: "42 000... C\'est seulement 2 000 au-dessus de mon budget. Avec le support premium et la formation, ça pourrait se justifier.",
+                        situation: "Le commercial propose 42000 euros sur 2 ans avec support premium et une formation gratuite. C\'est proche de votre limite mais l\'offre est enrichie. C\'est le moment de conclure intelligemment.",
+                        pressure: 40,
+                        relationship: 65,
+                        choices: [
+                            {
+                                text: "Vous acceptez en soulignant que c\\'est un partenariat gagnant-gagnant pour les deux parties",
+                                technique: "harvard",
+                                quality: "excellent",
+                                feedback: "Excellent! Vous concluez positivement un accord mutuellement bénéfique qui renforce la relation."
+                            },
+                            {
+                                text: "Vous tentez une dernière fois d\\'obtenir 40000 euros",
+                                technique: null,
+                                quality: "medium",
+                                feedback: "Risqué. Vous risquez de perdre un bon accord en étant trop gourmand."
+                            },
+                            {
+                                text: "Vous demandez 24h pour valider avec votre direction",
+                                technique: "preparation",
+                                quality: "good",
+                                feedback: "Sage. Vous prenez le temps de valider que c\'est vraiment le meilleur accord possible."
+                            },
+                            {
+                                text: "Vous acceptez immédiatement sans autre condition",
+                                technique: null,
+                                quality: "good",
+                                feedback: "Acceptable, l\'offre est raisonnable, mais vous auriez pu demander une petite garantie supplémentaire."
+                            }
+                        ]
+                    }
+                ]
+            },
+            politics: {
+                title: "Traité Commercial International",
+                context: "Vous êtes le Ministre du Commerce d\'un pays émergent. Dans la grande salle de conférences de l\'ONU à Genève, vous faites face à une délégation d\'une puissance économique majeure. Les lustres de cristal brillent au-dessus des drapeaux. Vos agriculteurs locaux dépendent de votre protection, mais votre pays a besoin d\'investissements étrangers. L\'équilibre est délicat.",
+                scene_image_prompt: "International diplomatic conference room, flags, formal negotiation table, government officials",
+                player: {
+                    name: "Ministre du Commerce",
+                    avatar: "🎖️",
+                    goal: "Protéger l\'économie locale tout en obtenant des investissements"
+                },
+                opponent: {
+                    name: "Ambassadeur Commerciale",
+                    avatar: "👔",
+                    goal: "Obtenir l\'accès au marché agricole",
+                    personality: "Diplomate expérimentée et stratégique"
+                },
+                steps: [
+                    {
+                        narrative: "L\'ambassadrice ouvre son dossier avec des gestes mesurés. L\'atmosphère est formelle mais tendue.",
+                        dialogue: "Excellence, nous apprécions cette opportunité de dialogue. Notre proposition est claire : nous souhaitons un accès complet à votre marché agricole. En échange, nous offrons des tarifs préférentiels sur nos produits manufacturés.",
+                        thought: "Accès complet? Nos agriculteurs seraient écrasés par la concurrence. Je dois trouver une alternative.",
+                        situation: "La délégation adverse demande l\'ouverture complète de votre marché agricole. Vos agriculteurs sont vulnérables face à la concurrence internationale. Vous devez protéger vos intérêts tout en gardant la relation diplomatique.",
+                        image_prompt: "Diplomat presenting proposal with documents, formal international meeting atmosphere",
+                        pressure: 50,
+                        relationship: 60,
+                        choices: [
+                            {
+                                text: "Vous écoutez leurs arguments puis demandez: Quelles sont vos préoccupations principales concernant l\'agriculture?",
+                                technique: "ecoute-active",
+                                quality: "excellent",
+                                feedback: "Excellent! Vous cherchez à comprendre leurs vrais intérêts plutôt que leurs positions."
+                            },
+                            {
+                                text: "Vous refusez fermement en citant la souveraineté alimentaire",
+                                technique: null,
+                                quality: "bad",
+                                feedback: "Trop défensif. Vous bloquez la négociation sans explorer de solutions alternatives."
+                            },
+                            {
+                                text: "Vous proposez une ouverture progressive sur 10 ans avec des quotas",
+                                technique: "harvard",
+                                quality: "good",
+                                feedback: "Bonne approche! Vous cherchez un compromis qui protège vos intérêts tout en avançant."
+                            },
+                            {
+                                text: "Vous mentionnez que la Chine vous a proposé un accord sans ces conditions",
+                                technique: "batna",
+                                quality: "good",
+                                feedback: "Bien! Vous rappelez que vous avez des alternatives pour renforcer votre position."
+                            }
+                        ]
+                    },
+                    {
+                        narrative: "L\'ambassadrice fronce les sourcils. La tension monte dans la salle. Ses conseillers murmurent entre eux.",
+                        dialogue: "Excellence, nous comprenons vos réserves, mais le temps presse. Nos industries attendent cette ouverture. Nous avons besoin d\'un accès immédiat, pas d\'un calendrier étalé sur des années.",
+                        thought: "Elle met la pression. Je dois désamorcer sans céder sur l\'essentiel.",
+                        situation: "Ils insistent sur l\'accès immédiat au marché. L\'atmosphère devient tendue, la relation diplomatique est en jeu. Vous devez gérer les émotions tout en tenant votre position.",
+                        pressure: 65,
+                        relationship: 50,
+                        choices: [
+                            {
+                                text: "Vous dites: Je sens que ce sujet est crucial pour vous. Parlons de ce qui vous inquiète vraiment.",
+                                technique: "empathie-tactique",
+                                quality: "excellent",
+                                feedback: "Parfait! Vous reconnaissez leurs émotions et ouvrez un dialogue constructif."
+                            },
+                            {
+                                text: "Vous proposez une pause café",
+                                technique: null,
+                                quality: "medium",
+                                feedback: "Pas mal pour désamorcer, mais vous n\'adressez pas le fond du problème."
+                            },
+                            {
+                                text: "Vous restez silencieux en les regardant",
+                                technique: "silence",
+                                quality: "good",
+                                feedback: "Le silence peut les amener à nuancer leur position, mais attention à la tension."
+                            },
+                            {
+                                text: "Vous rappelez que vos industries aussi ont besoin de protection",
+                                technique: null,
+                                quality: "medium",
+                                feedback: "Vous défendez votre position mais sans créer d\'ouverture vers une solution."
+                            }
+                        ]
+                    },
+                    {
+                        narrative: "L\'ambassadrice se détend légèrement. Un sourire diplomatique apparaît. Elle consulte ses notes.",
+                        dialogue: "Bien, nous apprécions votre ouverture au dialogue. Voici notre proposition : accès progressif à votre marché sur 5 ans, en échange d\'un fonds de développement agricole de 500 millions de dollars. Cela vous permettrait de moderniser votre secteur.",
+                        thought: "500 millions... C\'est substantiel, mais est-ce suffisant pour transformer toute notre agriculture?",
+                        situation: "Ils proposent un accès progressif au marché contre un fonds de développement agricole de 500 millions de dollars. Vous devez évaluer si cette offre répond vraiment aux besoins de votre pays.",
+                        pressure: 55,
+                        relationship: 55,
+                        choices: [
+                            {
+                                text: "Vous analysez si 500M est suffisant pour moderniser votre agriculture en 5 ans",
+                                technique: "preparation",
+                                quality: "excellent",
+                                feedback: "Excellent! Vous évaluez objectivement si cette offre répond vraiment à vos besoins."
+                            },
+                            {
+                                text: "Vous acceptez immédiatement, content d\'obtenir des fonds",
+                                technique: null,
+                                quality: "bad",
+                                feedback: "Trop rapide! Vous n\'avez pas évalué si c\'est vraiment suffisant ni négocié les conditions."
+                            },
+                            {
+                                text: "Vous proposez 1 milliard sur 10 ans avec transfert de technologies",
+                                technique: "ancrage",
+                                quality: "good",
+                                feedback: "Bon ancrage plus haut avec des éléments qualitatifs additionnels."
+                            },
+                            {
+                                text: "Vous demandez plus de détails sur le fonctionnement du fonds",
+                                technique: "ecoute-active",
+                                quality: "good",
+                                feedback: "Sage! Vous cherchez à comprendre les détails avant de vous engager."
+                            }
+                        ]
+                    },
+                    {
+                        narrative: "Des assistants apportent du thé. L\'atmosphère se fait plus collaborative. L\'ambassadrice semble prête à négocier sérieusement.",
+                        dialogue: "Excellence, nous sommes prêts à augmenter notre offre : 750 millions sur 7 ans pour la modernisation agricole. En contrepartie, nous demandons votre engagement sur des normes environnementales alignées sur nos standards internationaux.",
+                        thought: "750 millions c\'est mieux, mais les normes environnementales... Comment puis-je présenter ça comme une opportunité plutôt qu\'une contrainte?",
+                        situation: "Ils offrent 750 millions sur 7 ans mais demandent l\'adoption de normes environnementales strictes. Vous devez transformer cette contrainte en opportunité pour votre pays.",
+                        pressure: 50,
+                        relationship: 60,
+                        choices: [
+                            {
+                                text: "Vous explorez avec eux comment ces normes pourraient aussi bénéficier à votre développement durable",
+                                technique: "harvard",
+                                quality: "excellent",
+                                feedback: "Parfait! Vous transformez une contrainte en opportunité partagée."
+                            },
+                            {
+                                text: "Vous refusez les normes comme ingérence dans vos affaires",
+                                technique: null,
+                                quality: "bad",
+                                feedback: "Trop défensif. Vous ratez une opportunité de négocier des normes acceptables."
+                            },
+                            {
+                                text: "Vous dites: 750M? Et restez silencieux",
+                                technique: "miroir",
+                                quality: "good",
+                                feedback: "Bonne technique! Cela peut les amener à améliorer leur offre."
+                            },
+                            {
+                                text: "Vous proposez d\'accepter les normes progressivement avec assistance technique",
+                                technique: "concessions",
+                                quality: "good",
+                                feedback: "Bien! Vous acceptez le principe mais négociez les modalités."
+                            }
+                        ]
+                    },
+                    {
+                        narrative: "L\'ambassadrice se lève et vous tend la main avec un sourire sincère. Les drapeaux des deux nations côte à côte symbolisent ce moment historique.",
+                        dialogue: "Excellence, je crois que nous avons trouvé un terrain d\'entente. Proposition finale : 800 millions sur 7 ans, adoption progressive des normes environnementales avec notre assistance technique, et un accès préférentiel à votre marché avec une période de transition de 3 ans. C\'est un accord équilibré qui bénéficiera à nos deux nations.",
+                        thought: "C\'est une bonne offre. 800 millions, normes progressives, 3 ans de transition... Mes agriculteurs auront le temps de s\'adapter.",
+                        situation: "Proposition finale équilibrée : 800 millions sur 7 ans, normes environnementales progressives avec assistance, et accès préférentiel avec 3 ans de transition. C\'est le moment de conclure ou de demander des garanties supplémentaires.",
+                        pressure: 35,
+                        relationship: 70,
+                        choices: [
+                            {
+                                text: "Vous proposez de signer un accord de principe avec révision à mi-parcours",
+                                technique: "harvard",
+                                quality: "excellent",
+                                feedback: "Excellent! Vous sécurisez un bon accord tout en gardant une flexibilité pour l\'avenir."
+                            },
+                            {
+                                text: "Vous acceptez et remerciez pour ce partenariat équilibré",
+                                technique: null,
+                                quality: "good",
+                                feedback: "Bon! L\'accord est équilibré et vous concluez positivement."
+                            },
+                            {
+                                text: "Vous demandez 48h pour consulter votre gouvernement",
+                                technique: "preparation",
+                                quality: "good",
+                                feedback: "Sage! Vous prenez le temps nécessaire pour une décision aussi importante."
+                            },
+                            {
+                                text: "Vous tentez d\'obtenir 900M en dernière minute",
+                                technique: null,
+                                quality: "medium",
+                                feedback: "Risqué! Vous pourriez compromettre un bon accord pour un gain marginal."
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // Générer un scénario avec l'IA
+        async function generateScenario() {
+            console.log('🤖 Génération scénario IA via Netlify Function...');
+            
+            try {
+                // Appeler la fonction Netlify
+                const response = await fetch('/.netlify/functions/generate-scenario', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        scenarioType: gameState.scenarioType
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Erreur HTTP: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                if (!data.success) {
+                    throw new Error(data.error || 'Erreur inconnue');
+                }
+
+                const parsedData = data.scenario;
+                
+                // Valider la structure
+                if (!parsedData.title || !parsedData.context || !Array.isArray(parsedData.steps)) {
+                    throw new Error('Structure JSON invalide');
+                }
+                
+                if (parsedData.steps.length === 0) {
+                    throw new Error('Aucune étape générée');
+                }
+                
+                gameState.scenario = parsedData;
+                gameState.currentStep = 0;
+                gameState.score = 0;
+                gameState.history = [];
+                gameState.characters = {
+                    player: parsedData.player || { name: 'Vous', avatar: '👤', goal: 'Négocier' },
+                    opponent: parsedData.opponent || { name: 'Interlocuteur', avatar: '🤝', goal: 'Obtenir un accord' }
+                };
+                gameState.pressure = parsedData.steps[0]?.pressure || 30;
+                gameState.relationship = parsedData.steps[0]?.relationship || 50;
+                
+                console.log('✅ Scénario IA généré avec succès!');
+                
+                // Arrêter l'animation de chargement
+                if (stopLoadingAnimation) {
+                    stopLoadingAnimation();
+                    stopLoadingAnimation = null;
+                }
+                
+                // Commencer par la sélection des techniques
+                showTechniqueSelection();
+                
+            } catch (error) {
+                console.error('❌ Erreur génération IA:', error);
+                
+                // Arrêter l'animation de chargement
+                if (stopLoadingAnimation) {
+                    stopLoadingAnimation();
+                    stopLoadingAnimation = null;
+                }
+                
+                // Utiliser le fallback en cas d'erreur
+                if (confirm(`L'IA n'a pas fonctionné: ${error.message}\n\nVoulez-vous utiliser un scénario pré-défini à la place?`)) {
+                    useFallbackScenario();
+                } else {
+                    showScreen('screen-scenario');
+                }
+            }
+        }
+
+        // Utiliser un scénario de secours
+        function useFallbackScenario() {
+            // Mapper les nouveaux types vers les scénarios existants
+            const scenarioMapping = {
+                business: 'business',
+                career: 'business',
+                selling: 'business',
+                buying: 'business',
+                politics: 'politics',
+                conflict: 'politics',
+                couple: 'politics',
+                family: 'politics',
+                hostage: 'politics'
+            };
+            
+            const scenarioKey = scenarioMapping[gameState.scenarioType] || 'business';
+            
+            // Utiliser directement le scénario de secours avec ses choix
+            gameState.scenario = fallbackScenarios[scenarioKey];
+            gameState.currentStep = 0;
+            gameState.score = 0;
+            gameState.history = [];
+            gameState.characters = {
+                player: fallbackScenarios[scenarioKey].player,
+                opponent: fallbackScenarios[scenarioKey].opponent
+            };
+            gameState.pressure = fallbackScenarios[scenarioKey].steps[0]?.pressure || 30;
+            gameState.relationship = fallbackScenarios[scenarioKey].steps[0]?.relationship || 50;
+            
+            console.log('Utilisation du scénario de secours:', gameState.scenario);
+            showTechniqueSelection();
+        }
+
+        // Générer les choix pour les scénarios de secours (version simplifiée)
+        function generateChoicesFallback() {
+            const step = gameState.scenario.steps[gameState.currentStep];
+            
+            // Arrêter l'animation de chargement
+            if (stopLoadingAnimation) {
+                stopLoadingAnimation();
+                stopLoadingAnimation = null;
+            }
+            
+            // Les scénarios de secours ont déjà des choix définis
+            if (step.choices && step.choices.length >= 4) {
+                // Prendre jusqu'à 5 choix (ou tous s'il y en a moins de 5)
+                const selectedChoices = step.choices.slice(0, 5);
+                
+                // S'assurer que tous les choix ont une technique (pour cohérence avec le bouton hint)
+                selectedChoices.forEach(choice => {
+                    if (!choice.technique) {
+                        // Assigner une technique par défaut selon la qualité
+                        if (choice.quality === 'bad') {
+                            choice.technique = 'preparation'; // Mauvaise préparation
+                        } else if (choice.quality === 'medium') {
+                            choice.technique = 'silence';
+                        } else {
+                            choice.technique = 'ecoute-active';
+                        }
+                    }
+                });
+                
+                gameState.scenario.steps[gameState.currentStep].choices = selectedChoices;
+            }
+            
+            displayStep();
+        }
+
+        // Afficher l'écran de sélection des techniques
+        function showTechniqueSelection() {
+            const step = gameState.scenario.steps[gameState.currentStep];
+            
+            // Scroll vers le haut
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            document.getElementById('stat-step-select').textContent = gameState.currentStep + 1;
+            document.getElementById('stat-score-select').textContent = gameState.score;
+            
+            const avgScore = gameState.history.length > 0 
+                ? gameState.history.reduce((sum, h) => sum + h.points, 0) / gameState.history.length 
+                : 0;
+            const quality = avgScore >= 80 ? '🟢' : avgScore >= 60 ? '🟡' : avgScore >= 40 ? '🟠' : '🔴';
+            document.getElementById('stat-quality-select').textContent = quality;
+            
+            document.getElementById('situation-title-select').textContent = 
+                gameState.currentStep === 0 ? gameState.scenario.title : `Étape ${gameState.currentStep + 1} - ${gameState.scenario.title}`;
+            
+            // Construire le contenu narratif
+            let narrativeContent = '';
+            
+            // Contexte initial pour la première étape
+            if (gameState.currentStep === 0) {
+                narrativeContent += `
+                    <div class="context-panel">
+                        <h3 style="color: var(--accent-secondary); margin-bottom: 1rem;">📋 Contexte de la négociation</h3>
+                        <div class="context-section">
+                            <h4>Votre rôle</h4>
+                            <div style="display: flex; align-items: center; gap: 1rem; margin: 0.5rem 0;">
+                                <span style="font-size: 2rem;">${gameState.characters.player.avatar}</span>
+                                <div>
+                                    <strong>${gameState.characters.player.name}</strong>
+                                    <div style="color: var(--text-secondary); font-size: 0.9rem;">${gameState.characters.player.goal}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="context-section">
+                            <h4>Votre interlocuteur</h4>
+                            <div style="display: flex; align-items: center; gap: 1rem; margin: 0.5rem 0;">
+                                <span style="font-size: 2rem;">${gameState.characters.opponent.avatar}</span>
+                                <div>
+                                    <strong>${gameState.characters.opponent.name}</strong>
+                                    <div style="color: var(--text-secondary); font-size: 0.9rem;">${gameState.characters.opponent.goal}</div>
+                                    ${gameState.characters.opponent.personality ? `<div style="color: var(--accent-primary); font-size: 0.85rem; font-style: italic;">Personnalité : ${gameState.characters.opponent.personality}</div>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="narrative-box">
+                        ${addTooltips(gameState.scenario.context)}
+                    </div>
+                `;
+            }
+            
+            // Narration de l'étape
+            if (step.narrative) {
+                narrativeContent += `<div class="narrative-box">${addTooltips(step.narrative)}</div>`;
+            }
+            
+            // Dialogue de l'interlocuteur
+            if (step.dialogue) {
+                narrativeContent += `
+                    <div class="dialogue-container">
+                        <div class="dialogue-bubble">
+                            <div class="character-avatar">${gameState.characters.opponent.avatar}</div>
+                            <div class="dialogue-content">
+                                <div class="character-name">${gameState.characters.opponent.name}</div>
+                                <div class="dialogue-text">${addTooltips(step.dialogue)}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Pensée interne du joueur
+            if (step.thought) {
+                narrativeContent += `<div class="thought-bubble">${addTooltips(step.thought)}</div>`;
+            }
+            
+            // Situation actuelle
+            narrativeContent += `
+                <div class="internal-monologue">
+                    ${addTooltips(step.situation)}
+                </div>
+            `;
+            
+            // Indicateurs de pression et relation
+            if (step.pressure !== undefined || step.relationship !== undefined) {
+                const pressure = step.pressure || gameState.pressure;
+                const relationship = step.relationship || gameState.relationship;
+                
+                narrativeContent += `
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0;">
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="font-size: 0.9rem; color: var(--text-secondary);">⚡ Niveau de pression</span>
+                                <span style="font-weight: 700;">${pressure}%</span>
+                            </div>
+                            <div class="pressure-meter">
+                                <div class="pressure-fill" style="width: ${pressure}%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="font-size: 0.9rem; color: var(--text-secondary);">🤝 Qualité de la relation</span>
+                                <span style="font-weight: 700;">${relationship}%</span>
+                            </div>
+                            <div class="pressure-meter">
+                                <div class="pressure-fill" style="width: ${relationship}%; background: linear-gradient(90deg, var(--danger), var(--warning), var(--success));"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('situation-content-select').innerHTML = narrativeContent;
+            
+            // Injecter l'image APRÈS que le contenu soit dans le DOM
+            const imagePrompt = gameState.currentStep === 0 
+                ? gameState.scenario.scene_image_prompt 
+                : step.image_prompt;
+            
+            if (imagePrompt) {
+                console.log('🖼️ Injection image pour:', imagePrompt);
+                generateAndInsertSceneImage(imagePrompt, 'situation-content-select');
+            }
+
+            // Afficher la grille de sélection des techniques
+            const grid = document.getElementById('technique-selection-grid');
+            grid.innerHTML = techniques.map(tech => `
+                <div class="technique-card" data-id="${tech.id}">
+                    <input type="checkbox" id="tech-select-${tech.id}" value="${tech.id}">
+                    <h3>${tech.name}</h3>
+                    <p>${tech.description}</p>
+                </div>
+            `).join('');
+
+            // Réinitialiser la sélection
+            gameState.currentTechniques = [];
+            document.getElementById('btn-generate-choices').disabled = true;
+
+            // Gestion de la sélection
+            document.querySelectorAll('#technique-selection-grid .technique-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    if (e.target.tagName !== 'INPUT') {
+                        const checkbox = card.querySelector('input');
+                        checkbox.checked = !checkbox.checked;
+                        checkbox.dispatchEvent(new Event('change'));
+                    }
+                });
+            });
+
+            document.querySelectorAll('#technique-selection-grid .technique-card input').forEach(checkbox => {
+                checkbox.addEventListener('change', (e) => {
+                    const card = e.target.closest('.technique-card');
+                    const techId = e.target.value;
+                    
+                    if (e.target.checked) {
+                        // Limiter à 3 techniques
+                        if (gameState.currentTechniques.length >= 3) {
+                            e.target.checked = false;
+                            alert('Vous pouvez sélectionner maximum 3 techniques par étape.');
+                            return;
+                        }
+                        card.classList.add('selected');
+                        gameState.currentTechniques.push(techId);
+                    } else {
+                        card.classList.remove('selected');
+                        gameState.currentTechniques = gameState.currentTechniques.filter(t => t !== techId);
+                    }
+                    
+                    document.getElementById('btn-generate-choices').disabled = gameState.currentTechniques.length === 0;
+                });
+            });
+
+            // Bouton pour générer les choix
+            document.getElementById('btn-generate-choices').onclick = () => {
+                showScreen('screen-loading');
+                stopLoadingAnimation = startLoadingAnimation(); // Démarrer l'animation
+                // Si c'est un scénario de secours avec des choix prédéfinis, utiliser la version simplifiée
+                if (gameState.scenario.steps[gameState.currentStep].choices) {
+                    generateChoicesFallback();
+                } else {
+                    generateChoices();
+                }
+            };
+
+            showScreen('screen-technique-selection');
+        }
+
+        // Générer les choix de réponse basés sur les techniques sélectionnées
+        async function generateChoices() {
+            const step = gameState.scenario.steps[gameState.currentStep];
+
+            try {
+                // Appeler la fonction Netlify pour générer les choix
+                const response = await fetch('/.netlify/functions/generate-choices', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        situation: step.situation,
+                        dialogue: step.dialogue || '',
+                        techniques: gameState.currentTechniques,
+                        playerName: gameState.characters.player.name,
+                        opponentName: gameState.characters.opponent.name,
+                        opponentPersonality: gameState.characters.opponent.personality
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Erreur HTTP: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                if (!data.success) {
+                    throw new Error(data.error || 'Erreur inconnue');
+                }
+                
+                if (!data.choices || data.choices.length !== 5) {
+                    throw new Error('Format de choix invalide - 5 choix requis');
+                }
+                
+                // Ajouter les choix à l'étape actuelle
+                gameState.scenario.steps[gameState.currentStep].choices = data.choices;
+                
+                console.log('✅ Choix IA générés avec succès!');
+                
+                // Arrêter l'animation
+                if (stopLoadingAnimation) {
+                    stopLoadingAnimation();
+                    stopLoadingAnimation = null;
+                }
+                
+                // Afficher l'étape avec les choix
+                displayStep();
+                
+            } catch (error) {
+                console.error('❌ Erreur génération choix IA:', error);
+                
+                // Utiliser le fallback
+                generateChoicesFallback();
+            }
+        }
+
+        // Démarrer le jeu (ancienne fonction, maintenant on commence par la sélection)
+        function startGame() {
+            showTechniqueSelection();
+        }
+
+        // Afficher une étape
+        function displayStep() {
+            showScreen('screen-game');
+            updateStats();
+            
+            // Scroll vers le haut pour recommencer à lire
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            const step = gameState.scenario.steps[gameState.currentStep];
+            
+            document.getElementById('situation-title').textContent = 
+                gameState.currentStep === 0 ? gameState.scenario.title : `Étape ${gameState.currentStep + 1}`;
+            
+            const situationText = gameState.currentStep === 0 
+                ? `${gameState.scenario.context}\n\n${step.situation}`
+                : step.situation;
+            
+            // Ajouter les techniques sélectionnées pour cette étape
+            const techniquesDisplay = gameState.currentTechniques.length > 0
+                ? `<div class="techniques-used" style="margin-bottom: 1.5rem;">
+                    <strong>🎯 Techniques que vous souhaitez utiliser :</strong><br>
+                    ${gameState.currentTechniques.map(id => {
+                        const tech = techniques.find(t => t.id === id);
+                        return `<span class="technique-badge">${tech.name}</span>`;
+                    }).join('')}
+                   </div>`
+                : '';
+            
+            document.getElementById('situation-content').innerHTML = 
+                techniquesDisplay + addTooltips(situationText);
+
+            const choicesContainer = document.getElementById('choices-container');
+            choicesContainer.innerHTML = step.choices.map((choice, index) => {
+                const techniqueName = choice.technique ? techniques.find(t => t.id === choice.technique)?.name : null;
+                const techniqueDesc = choice.technique ? techniques.find(t => t.id === choice.technique)?.description : null;
+                
+                // TOUJOURS afficher le bouton hint, même s'il n'y a pas de technique (pour ne pas donner d'indices)
+                return `
+                    <div class="choice-btn" data-index="${index}">
+                        <div class="choice-label">
+                            <span>Option ${String.fromCharCode(65 + index)}</span>
+                            <button class="hint-btn" onclick="toggleHint(event, ${index})">💡 Voir la technique</button>
+                        </div>
+                        <div style="flex: 1;">
+                            <div>${addTooltips(choice.text)}</div>
+                        </div>
+                        <div class="technique-hint" id="hint-${index}">
+                            ${techniqueName ? `
+                                <strong>🎯 Technique utilisée : ${techniqueName}</strong>
+                                <p>${techniqueDesc}</p>
+                            ` : `
+                                <strong>⚠️ Pas de technique spécifique</strong>
+                                <p>Cette approche n'utilise pas de technique de négociation reconnue.</p>
+                            `}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Ajouter les gestionnaires d'événements pour les choix (pas pour les hints)
+            document.querySelectorAll('.choice-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    // Ne pas déclencher si on clique sur le bouton hint
+                    if (!e.target.classList.contains('hint-btn')) {
+                        handleChoice(parseInt(btn.dataset.index));
+                    }
+                });
+            });
+
+            document.getElementById('feedback-container').innerHTML = '';
+            updateProgress();
+        }
+
+        // Toggle hint visibility
+        function toggleHint(event, index) {
+            event.stopPropagation(); // Empêcher la sélection du choix
+            const hint = document.getElementById(`hint-${index}`);
+            hint.classList.toggle('visible');
+        }
+
+        // Gérer le choix du joueur
+        function handleChoice(choiceIndex) {
+            const step = gameState.scenario.steps[gameState.currentStep];
+            const choice = step.choices[choiceIndex];
+
+            // Calculer le score
+            const scoreMap = { excellent: 100, good: 70, medium: 40, bad: 10 };
+            const points = scoreMap[choice.quality] || 0;
+            gameState.score += points;
+
+            // Enregistrer dans l'historique avec plus de détails
+            gameState.history.push({
+                step: gameState.currentStep,
+                stepTitle: gameState.currentStep === 0 ? gameState.scenario.title : `Étape ${gameState.currentStep + 1}`,
+                situation: step.situation,
+                selectedTechniques: [...gameState.currentTechniques], // Techniques sélectionnées pour cette étape
+                choice: choiceIndex,
+                choiceText: choice.text,
+                technique: choice.technique,
+                quality: choice.quality,
+                points: points,
+                feedback: choice.feedback
+            });
+
+            // Mettre à jour les stats techniques utilisées
+            if (choice.technique) {
+                playerProfile.stats.techniquesUsed[choice.technique] = 
+                    (playerProfile.stats.techniquesUsed[choice.technique] || 0) + 1;
+            }
+
+            // Tracker le plus bas niveau de relation (pour badge Phoenix)
+            if (gameState.relationship < (playerProfile.stats.lowestRelationship || 100)) {
+                playerProfile.stats.lowestRelationship = gameState.relationship;
+            }
+
+            // Afficher le feedback
+            displayFeedback(choice);
+
+            // ⚠️ VÉRIFIER SI LA NÉGOCIATION A ÉCHOUÉ
+            if (checkForFailure()) {
+                showFailureScreen();
+                return; // Arrêter ici si échec
+            }
+
+            // Désactiver les boutons de choix
+            document.querySelectorAll('.choice-btn').forEach(btn => {
+                btn.style.opacity = '0.5';
+                btn.style.cursor = 'not-allowed';
+                btn.onclick = null;
+            });
+
+            // Ajouter le bouton "Prochaine étape"
+            const feedbackContainer = document.getElementById('feedback-container');
+            const nextButton = document.createElement('button');
+            nextButton.className = 'next-step-btn';
+            nextButton.textContent = gameState.currentStep < gameState.scenario.steps.length - 1 ? 'Prochaine étape ➜' : 'Voir les résultats ➜';
+            nextButton.onclick = () => {
+                gameState.currentStep++;
+                if (gameState.currentStep < gameState.scenario.steps.length) {
+                    // Retour à la sélection des techniques pour la prochaine étape
+                    // Scroll vers le haut pour recommencer à lire
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    showTechniqueSelection();
+                } else {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    showResults();
+                }
+            };
+            feedbackContainer.appendChild(nextButton);
+        }
+
+        // Afficher le feedback
+        function displayFeedback(choice) {
+            const feedbackClass = {
+                excellent: 'success',
+                good: 'success',
+                medium: 'warning',
+                bad: 'danger'
+            }[choice.quality] || 'warning';
+
+            const feedbackEmoji = choice.emotion || {
+                excellent: '🎯',
+                good: '👍',
+                medium: '🤔',
+                bad: '❌'
+            }[choice.quality] || '💡';
+
+            const container = document.getElementById('feedback-container');
+            
+            // Afficher l'aperçu de la conséquence d'abord si disponible
+            let previewHTML = '';
+            if (choice.preview) {
+                previewHTML = `
+                    <div style="background: rgba(255, 107, 53, 0.1); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border-left: 3px solid var(--accent-primary);">
+                        <strong>💭 Conséquence :</strong> ${choice.preview}
+                    </div>
+                `;
+            }
+            
+            // Afficher le choix du joueur comme un dialogue
+            container.innerHTML = `
+                ${previewHTML}
+                <div class="dialogue-container" style="margin-top: 1rem;">
+                    <div class="dialogue-bubble player">
+                        <div class="character-avatar">${gameState.characters.player.avatar}</div>
+                        <div class="dialogue-content">
+                            <div class="character-name">${gameState.characters.player.name}</div>
+                            <div class="dialogue-text">${choice.text}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="feedback ${feedbackClass}" style="margin-top: 1.5rem;">
+                    <h3 style="display: flex; align-items: center; gap: 0.5rem;">
+                        ${feedbackEmoji} 
+                        <span>${choice.quality === 'excellent' ? 'Excellent choix stratégique !' : 
+                              choice.quality === 'good' ? 'Bonne approche' : 
+                              choice.quality === 'medium' ? 'Approche acceptable' : 
+                              'Choix risqué'}</span>
+                    </h3>
+                    <p style="margin-top: 1rem;">${choice.feedback}</p>
+                    ${choice.technique ? `
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                            <strong>🎯 Technique appliquée :</strong> ${techniques.find(t => t.id === choice.technique)?.name || 'N/A'}
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        // Mettre à jour les statistiques
+        function updateStats() {
+            document.getElementById('stat-step').textContent = gameState.currentStep + 1;
+            document.getElementById('stat-score').textContent = gameState.score;
+            
+            const avgScore = gameState.history.length > 0 
+                ? gameState.history.reduce((sum, h) => sum + h.points, 0) / gameState.history.length 
+                : 0;
+            
+            const quality = avgScore >= 80 ? '🟢' : avgScore >= 60 ? '🟡' : avgScore >= 40 ? '🟠' : '🔴';
+            document.getElementById('stat-quality').textContent = quality;
+        }
+
+        // Mettre à jour la barre de progression
+        function updateProgress() {
+            const progress = ((gameState.currentStep + 1) / gameState.scenario.steps.length) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+        }
+
+        // Afficher les résultats
+        function showResults() {
+            // Déterminer la fin selon le score
+            const ending = getEnding(gameState.score);
+            
+            // Calculer durée de jeu
+            const duration = gameState.startTime ? Math.floor((Date.now() - gameState.startTime) / 1000 / 60) : 0;
+            
+            // Mettre à jour les stats
+            playerProfile.stats.totalNegotiations++;
+            playerProfile.stats.totalScore += gameState.score;
+            playerProfile.stats.averageScore = Math.floor(playerProfile.stats.totalScore / playerProfile.stats.totalNegotiations);
+            
+            // Score parfait?
+            if (gameState.score === 500) {
+                playerProfile.stats.perfectScores++;
+            }
+            
+            // Succès ou échec?
+            if (gameState.score >= 250) {
+                playerProfile.stats.successfulNegotiations++;
+                playerProfile.stats.currentStreak++;
+                
+                if (playerProfile.stats.currentStreak > playerProfile.stats.bestStreak) {
+                    playerProfile.stats.bestStreak = playerProfile.stats.currentStreak;
+                }
+            } else {
+                playerProfile.stats.failedNegotiations++;
+                playerProfile.stats.currentStreak = 0;
+            }
+            
+            // Badge Phoenix (gagner après <25% relation)
+            if (gameState.score >= 350 && playerProfile.stats.lowestRelationship < 25) {
+                if (!playerProfile.badges.includes('comeback_kid')) {
+                    playerProfile.badges.push('comeback_kid');
+                    showBadgeUnlocked([badges.comeback_kid]);
+                }
+            }
+            
+            // Compter les scénarios joués
+            playerProfile.stats.scenariosPlayed[gameState.scenarioType] = 
+                (playerProfile.stats.scenariosPlayed[gameState.scenarioType] || 0) + 1;
+            
+            // Donner XP selon la fin
+            awardXP(ending.xp, `Fin : ${ending.title}`);
+            
+            // Vérifier badges
+            const newBadges = checkAndUnlockBadges();
+            
+            // Sauvegarder
+            savePlayerProfile();
+            
+            // Afficher l'écran de fin avec animation
+            const avgScore = gameState.history.reduce((sum, h) => sum + h.points, 0) / gameState.history.length;
+            
+            const endingHTML = `
+                <div class="ending-screen" style="animation: slideIn 0.8s;">
+                    <div class="ending-icon">${ending.icon}</div>
+                    <h2 style="color: ${ending.color}; font-size: 2.5rem; margin: 1rem 0;">${ending.title}</h2>
+                    
+                    <div style="background: var(--bg-card); padding: 2rem; border-radius: 16px; max-width: 600px; margin: 2rem auto; border: 3px solid ${ending.color};">
+                        <p style="font-size: 1.2rem; line-height: 1.8;">${ending.description}</p>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; max-width: 800px; margin: 2rem auto;">
+                        <div style="background: var(--bg-hover); padding: 1.5rem; border-radius: 12px; border: 2px solid ${ending.color};">
+                            <div style="font-size: 2.5rem; font-weight: bold; color: ${ending.color};">${gameState.score}</div>
+                            <div style="color: var(--text-secondary);">Score Final / 500</div>
+                        </div>
+                        
+                        <div style="background: var(--bg-hover); padding: 1.5rem; border-radius: 12px;">
+                            <div style="font-size: 2.5rem;">🎯</div>
+                            <div style="color: var(--text-secondary);">Score Moyen: ${Math.round(avgScore)}</div>
+                        </div>
+                        
+                        <div style="background: var(--bg-hover); padding: 1.5rem; border-radius: 12px;">
+                            <div style="font-size: 2.5rem;">⚡</div>
+                            <div style="color: var(--text-secondary);">+${ending.xp} XP</div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(255, 107, 53, 0.1); padding: 1.5rem; border-radius: 12px; max-width: 600px; margin: 2rem auto;">
+                        <h3 style="color: var(--accent-primary); margin-bottom: 1rem;">📊 Performance</h3>
+                        <div style="text-align: left; line-height: 2;">
+                            <p>• Relation finale : <strong>${gameState.relationship}%</strong></p>
+                            <p>• Pression finale : <strong>${gameState.pressure}%</strong></p>
+                            <p>• Étapes complétées : <strong>${gameState.history.length}/5</strong></p>
+                            <p>• Série actuelle : <strong>${playerProfile.stats.currentStreak} ${playerProfile.stats.currentStreak > 0 ? '🔥' : ''}</strong></p>
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin: 2rem 0 1rem;">📖 Résumé de vos choix</h3>
+                    <div style="max-width: 800px; margin: 0 auto;">
+                        ${gameState.history.map((h, i) => {
+                            const qualityColors = {
+                                excellent: '#4caf50',
+                                good: '#8bc34a',
+                                medium: '#ffc107',
+                                bad: '#f44336'
+                            };
+                            
+                            const qualityLabel = {
+                                excellent: '🎯 Excellent',
+                                good: '👍 Bon',
+                                medium: '🤔 Acceptable',
+                                bad: '❌ Risqué'
+                            }[h.quality];
+                            
+                            const techniqueName = h.technique ? techniques.find(t => t.id === h.technique)?.name : 'Aucune';
+                            
+                            return `
+                                <div style="background: var(--bg-card); padding: 1.5rem; border-radius: 12px; margin: 1rem 0; border-left: 4px solid ${qualityColors[h.quality]};">
+                                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                                        <strong>${h.stepTitle}</strong>
+                                        <span style="background: ${qualityColors[h.quality]}; color: white; padding: 0.25rem 0.75rem; border-radius: 15px; font-size: 0.85rem;">${qualityLabel}</span>
+                                    </div>
+                                    <p style="color: var(--text-secondary); margin: 0.5rem 0; font-size: 0.95rem;">${h.choiceText.substring(0, 100)}...</p>
+                                    <div style="display: flex; gap: 1rem; margin-top: 0.75rem; font-size: 0.9rem;">
+                                        <span>✨ ${techniqueName}</span>
+                                        <span style="color: ${qualityColors[h.quality]};">+${h.points} pts</span>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                    
+                    <div style="margin-top: 3rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <button class="btn" onclick="resetGame()">🔄 Nouvelle Partie</button>
+                        <button class="btn" onclick="showBadgesScreen()">🏆 Voir mes Badges</button>
+                    </div>
+                </div>
+            `;
+            
+            showScreen('screen-results');
+            document.getElementById('results-container').innerHTML = endingHTML;
+            
+            // Animation de fin
+            if (gameState.score >= 450) {
+                createConfetti();
+                playSound('success');
+            } else if (gameState.score >= 350) {
+                playSound('success');
+            }
+        }
+
+        // Générer l'analyse des techniques utilisées
+        function generateTechniqueAnalysis() {
+            const techniquesUsed = gameState.history.filter(h => h.technique).map(h => h.technique);
+            const uniqueTechniques = [...new Set(techniquesUsed)];
+            
+            if (uniqueTechniques.length === 0) {
+                return '<p style="color: var(--text-secondary);">Vous n\'avez utilisé aucune technique spécifique dans cette simulation. Essayez de reconnaître et d\'appliquer les techniques de négociation dans vos prochaines tentatives.</p>';
+            }
+            
+            const techniqueStats = uniqueTechniques.map(techId => {
+                const tech = techniques.find(t => t.id === techId);
+                const uses = techniquesUsed.filter(t => t === techId).length;
+                return { name: tech.name, uses: uses };
+            });
+            
+            techniqueStats.sort((a, b) => b.uses - a.uses);
+            
+            return `
+                <p style="margin-bottom: 1rem;"><strong>Techniques utilisées :</strong> ${uniqueTechniques.length} sur ${techniques.length}</p>
+                <div style="display: grid; gap: 0.5rem;">
+                    ${techniqueStats.map(stat => `
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--bg-hover); border-radius: 8px;">
+                            <span>${stat.name}</span>
+                            <span style="background: var(--accent-primary); color: white; padding: 0.25rem 0.75rem; border-radius: 15px; font-size: 0.85rem;">${stat.uses}x</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <p style="margin-top: 1rem; color: var(--text-secondary);">
+                    ${uniqueTechniques.length >= 5 ? 'Excellente diversité ! Vous avez su utiliser plusieurs techniques.' : 
+                      uniqueTechniques.length >= 3 ? 'Bonne variété de techniques utilisées.' : 
+                      'Essayez d\'utiliser plus de techniques variées pour améliorer vos compétences.'}
+                </p>
+            `;
+        }
+
+        // Télécharger le résumé en HTML
+        function downloadSummary() {
+            const avgScore = gameState.history.reduce((sum, h) => sum + h.points, 0) / gameState.history.length;
+            let rating;
+            if (avgScore >= 80) rating = '⭐⭐⭐⭐⭐';
+            else if (avgScore >= 65) rating = '⭐⭐⭐⭐';
+            else if (avgScore >= 50) rating = '⭐⭐⭐';
+            else rating = '⭐⭐';
+
+            const html = `
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Résumé de négociation - ${new Date().toLocaleDateString()}</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f5f5;
+            color: #333;
+        }
+        h1 { color: #ff6b35; text-align: center; }
+        h2 { color: #f7931e; margin-top: 30px; }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .stat-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #ff6b35;
+        }
+        .journey-step {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-left: 5px solid #ccc;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .journey-step.excellent { border-left-color: #4caf50; }
+        .journey-step.good { border-left-color: #2196F3; }
+        .journey-step.medium { border-left-color: #ffc107; }
+        .journey-step.bad { border-left-color: #f44336; }
+        .technique-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin: 5px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #999;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <h1>📊 Résumé de Simulation de Négociation</h1>
+    <p style="text-align: center; color: #666;">Généré le ${new Date().toLocaleDateString('fr-FR')} à ${new Date().toLocaleTimeString('fr-FR')}</p>
+    
+    <div class="stats">
+        <div class="stat-box">
+            <div class="stat-value">${gameState.score}</div>
+            <div>Score total</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-value">${gameState.scenario.steps.length}</div>
+            <div>Étapes complétées</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-value">${rating}</div>
+            <div>Évaluation</div>
+        </div>
+    </div>
+
+    <h2>Scénario : ${gameState.scenario.title}</h2>
+    <p><strong>Contexte :</strong> ${gameState.scenario.context}</p>
+
+    <h2>Détail de votre parcours</h2>
+    ${gameState.history.map((h, i) => {
+        const qualityLabel = {
+            excellent: '🎯 Excellent choix',
+            good: '👍 Bon choix',
+            medium: '🤔 Choix acceptable',
+            bad: '❌ Choix à éviter'
+        }[h.quality];
+        
+        const techniqueName = h.technique ? techniques.find(t => t.id === h.technique)?.name : 'Aucune technique spécifique';
+        
+        return `
+            <div class="journey-step ${h.quality}">
+                <h3>${h.stepTitle}</h3>
+                <p><em>${h.situation}</em></p>
+                <p><strong>Votre choix :</strong> ${h.choiceText}</p>
+                <div class="technique-badge">${techniqueName}</div>
+                <p><strong>${qualityLabel}</strong> (+${h.points} points)</p>
+                <p style="color: #666;">${h.feedback}</p>
+            </div>
+        `;
+    }).join('')}
+
+    <div class="footer">
+        <p>Généré par Maître Négociateur - Jeu d'entraînement aux techniques de négociation</p>
+    </div>
+</body>
+</html>
+            `;
+
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `negociation-resume-${new Date().toISOString().split('T')[0]}.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Réinitialiser le jeu
+        function resetGame() {
+            gameState = {
+                scenarioType: '',
+                currentStep: 0,
+                score: 0,
+                maxSteps: 5,
+                scenario: null,
+                history: [],
+                currentTechniques: []
+            };
+
+            showScreen('screen-scenario');
+        }
+
+        // Lancer l'initialisation
+        init();
+    </script>
+</body>
+</html>
