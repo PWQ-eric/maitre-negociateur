@@ -2823,38 +2823,66 @@
 
         // Générer les choix pour les scénarios de secours (version simplifiée)
         function generateChoicesFallback() {
-            const step = gameState.scenario.steps[gameState.currentStep];
-            
-            // Arrêter l'animation de chargement
-            if (stopLoadingAnimation) {
-                stopLoadingAnimation();
-                stopLoadingAnimation = null;
-            }
-            
-            // Les scénarios de secours ont déjà des choix définis
-            if (step.choices && step.choices.length >= 4) {
-                // Prendre jusqu'à 5 choix (ou tous s'il y en a moins de 5)
-                const selectedChoices = step.choices.slice(0, 5);
-                
-                // S'assurer que tous les choix ont une technique (pour cohérence avec le bouton hint)
-                selectedChoices.forEach(choice => {
-                    if (!choice.technique) {
-                        // Assigner une technique par défaut selon la qualité
-                        if (choice.quality === 'bad') {
-                            choice.technique = 'preparation'; // Mauvaise préparation
-                        } else if (choice.quality === 'medium') {
-                            choice.technique = 'silence';
-                        } else {
-                            choice.technique = 'ecoute-active';
-                        }
-                    }
-                });
-                
-                gameState.scenario.steps[gameState.currentStep].choices = selectedChoices;
-            }
-            
-            displayStep();
+    const step = gameState.scenario.steps[gameState.currentStep];
+    
+    // Choix de secours pré-définis
+    const fallbackChoices = [
+        {
+            text: "Je comprends votre position. Explorons ensemble des solutions qui pourraient satisfaire nos deux objectifs.",
+            preview: "Approche collaborative qui maintient la relation",
+            technique: "harvard",
+            quality: "excellent",
+            feedback: "Excellente utilisation de la méthode Harvard : vous reconnaissez sa position tout en orientant vers une solution gagnant-gagnant.",
+            emotion: "😊"
+        },
+        {
+            text: "Voici ma proposition : si vous acceptez X, je peux vous offrir Y en contrepartie.",
+            preview: "Échange équilibré de concessions",
+            technique: "concessions",
+            quality: "good",
+            feedback: "Bonne gestion des concessions réciproques.",
+            emotion: "😐"
+        },
+        {
+            text: "Laissez-moi réfléchir un instant...",
+            preview: "Pause pour gagner du temps",
+            technique: "silence",
+            quality: "medium",
+            feedback: "Le silence peut être utile mais attention à ne pas paraître hésitant.",
+            emotion: "🤔"
+        },
+        {
+            text: "C'est à prendre ou à laisser.",
+            preview: "Position ferme qui risque de bloquer la négociation",
+            technique: null,
+            quality: "bad",
+            feedback: "Trop agressif. Cette approche risque de rompre la relation.",
+            emotion: "😠"
+        },
+        {
+            text: "D'accord, j'accepte vos conditions.",
+            preview: "Capitulation totale",
+            technique: null,
+            quality: "bad",
+            feedback: "Vous abandonnez toute négociation. Ce n'est presque jamais la bonne stratégie.",
+            emotion: "😟"
         }
+    ];
+    
+    // Ajouter les choix à l'étape
+    if (!step.choices) {
+        step.choices = fallbackChoices;
+    }
+    
+    // Arrêter l'animation
+    if (stopLoadingAnimation) {
+        stopLoadingAnimation();
+        stopLoadingAnimation = null;
+    }
+    
+    // Afficher l'étape
+    displayStep();
+}
 
         // Afficher l'écran de sélection des techniques
         function showTechniqueSelection() {
