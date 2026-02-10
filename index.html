@@ -1974,14 +1974,6 @@ window.closeProfileScreen = function() {
 // PARAMÈTRES UTILISATEUR
 // ========================================
 
-// Initialiser les paramètres par défaut
-if (!playerProfile.settings) {
-    playerProfile.settings = {
-        language: 'fr',
-        currency: 'eur'
-    };
-}
-
 // Fonction pour mettre à jour un paramètre
 window.updateSetting = function(settingName, value) {
     // Mettre à jour visuellement
@@ -2989,6 +2981,16 @@ window.addEventListener('beforeunload', () => {
                 lowestRelationship: 100
             }
         };
+
+        // Initialiser les paramètres par défaut
+function initializeUserSettings() {
+    if (!playerProfile.settings) {
+        playerProfile.settings = {
+            language: 'fr',
+            currency: 'eur'
+        };
+    }
+}
 
         // Charger le profil depuis localStorage
         function loadPlayerProfile() {
@@ -4214,7 +4216,7 @@ generateScenarioImage(gameState.scenarioType);
                         techniques: gameState.currentTechniques,
                         playerName: gameState.characters.player.name,
                         opponentName: gameState.characters.opponent.name,
-                        opponentPersonality: gameState.characters.opponent.personality
+                        opponentPersonality: gameState.characters.opponent.personality,
                         language: currentLanguage || playerProfile.settings?.language || 'fr'
                     })
                 });
