@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - Maître Négociateur</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0e1a;
+            --bg-card: #131824;
+            --bg-hover: #1a1f2e;
+            --accent-primary: #ff6b35;
+            --accent-secondary: #f7931e;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b8c8;
+            --border-color: #2a3142;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #0f1419 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .bilingual-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .language-section {
+            background: var(--bg-card);
+            border: 3px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .language-section:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-5px);
+        }
+
+        .language-section.selected {
+            border-color: var(--accent-primary);
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(247, 147, 30, 0.1));
+        }
+
+        .language-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .flag {
+            font-size: 3rem;
+        }
+
+        .language-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .settings-group {
+            margin: 1.5rem 0;
+        }
+
+        .settings-label {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: block;
+            color: var(--accent-secondary);
+        }
+
+        .currency-options {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .currency-btn {
+            flex: 1;
+            padding: 1rem;
+            background: var(--bg-hover);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .currency-btn:hover {
+            border-color: var(--accent-primary);
+        }
+
+        .currency-btn.active {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+            font-weight: 700;
+        }
+
+        .start-btn {
+            width: 100%;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+        }
+
+        .start-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .bilingual-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Master Negotiator / Maître Négociateur</h1>
+            <p class="subtitle">Choose your language and currency / Choisissez votre langue et devise</p>
+        </div>
+
+        <div class="bilingual-grid">
+            <!-- Section Français -->
+            <div class="language-section" id="fr-section" onclick="selectLanguage('fr')">
+                <div class="language-header">
+                    <span class="flag">🇫🇷</span>
+                    <h2 class="language-title">Français</h2>
+                </div>
+                
+                <div class="settings-group">
+                    <label class="settings-label">Devise</label>
+                    <div class="currency-options">
+                        <div class="currency-btn active" data-currency="eur" onclick="selectCurrency(event, 'eur', 'fr')">
+                            € Euro
+                        </div>
+                        <div class="currency-btn" data-currency="usd" onclick="selectCurrency(event, 'usd', 'fr')">
+                            $ Dollar
+                        </div>
+                    </div>
+                </div>
+
+                <p style="color: var(--text-secondary); margin-top: 1.5rem; font-size: 0.9rem;">
+                    Tous les scénarios et l'interface seront en français. Les montants seront affichés dans la devise choisie.
+                </p>
+            </div>
+
+            <!-- Section English -->
+            <div class="language-section" id="en-section" onclick="selectLanguage('en')">
+                <div class="language-header">
+                    <span class="flag">🇬🇧</span>
+                    <h2 class="language-title">English</h2>
+                </div>
+                
+                <div class="settings-group">
+                    <label class="settings-label">Currency</label>
+                    <div class="currency-options">
+                        <div class="currency-btn" data-currency="eur" onclick="selectCurrency(event, 'eur', 'en')">
+                            € Euro
+                        </div>
+                        <div class="currency-btn active" data-currency="usd" onclick="selectCurrency(event, 'usd', 'en')">
+                            $ Dollar
+                        </div>
+                    </div>
+                </div>
+
+                <p style="color: var(--text-secondary); margin-top: 1.5rem; font-size: 0.9rem;">
+                    All scenarios and the interface will be in English. Amounts will be displayed in the selected currency.
+                </p>
+            </div>
+        </div>
+
+        <button class="start-btn" id="start-btn" onclick="startGame()">
+            <span id="btn-text-fr">Commencer à jouer 🚀</span>
+            <span id="btn-text-en" style="display: none;">Start Playing 🚀</span>
+        </button>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCpJ0YXGtYBiZuZCzVfX6DX6p_Zd1ufx0g",
+            authDomain: "maitre-negociateur.firebaseapp.com",
+            projectId: "maitre-negociateur",
+            storageBucket: "maitre-negociateur.firebasestorage.app",
+            messagingSenderId: "629720076642",
+            appId: "1:629720076642:web:93d5c888496f31b5f75c3b"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+        let selectedLanguage = 'fr';
+        let selectedCurrency = 'eur';
+
+        // Vérifier auth et onboarding
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = 'login.html';
+            } else {
+                currentUser = user;
+                
+                // Vérifier si onboarding déjà fait
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                if (userDoc.exists()) {
+                    const data = userDoc.data();
+                    if (data.settings && data.settings.onboardingCompleted) {
+                        // Onboarding déjà fait, aller au jeu
+                        window.location.href = 'index.html';
+                    }
+                }
+            }
+        });
+
+        window.selectLanguage = function(lang) {
+            selectedLanguage = lang;
+            
+            // UI
+            document.getElementById('fr-section').classList.remove('selected');
+            document.getElementById('en-section').classList.remove('selected');
+            document.getElementById(lang + '-section').classList.add('selected');
+            
+            // Bouton
+            if (lang === 'fr') {
+                document.getElementById('btn-text-fr').style.display = 'inline';
+                document.getElementById('btn-text-en').style.display = 'none';
+                selectedCurrency = 'eur'; // Défaut FR
+            } else {
+                document.getElementById('btn-text-fr').style.display = 'none';
+                document.getElementById('btn-text-en').style.display = 'inline';
+                selectedCurrency = 'usd'; // Défaut EN
+            }
+            
+            // Reset currency buttons
+            document.querySelectorAll('.currency-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`#${lang}-section [data-currency="${selectedCurrency}"]`).classList.add('active');
+        };
+
+        window.selectCurrency = function(event, currency, lang) {
+            event.stopPropagation();
+            selectedCurrency = currency;
+            
+            // UI dans la section concernée
+            const section = document.getElementById(lang + '-section');
+            section.querySelectorAll('.currency-btn').forEach(btn => btn.classList.remove('active'));
+            section.querySelector(`[data-currency="${currency}"]`).classList.add('active');
+        };
+
+        window.startGame = async function() {
+            if (!currentUser) return;
+
+            const btn = document.getElementById('start-btn');
+            btn.disabled = true;
+            btn.textContent = selectedLanguage === 'fr' ? 'Sauvegarde...' : 'Saving...';
+
+            try {
+                // Sauvegarder dans Firestore
+                await setDoc(doc(db, 'users', currentUser.uid), {
+                    settings: {
+                        language: selectedLanguage,
+                        currency: selectedCurrency,
+                        onboardingCompleted: true
+                    },
+                    email: currentUser.email,
+                    lastUpdate: Date.now()
+                }, { merge: true });
+
+                // Rediriger vers le jeu
+                window.location.href = 'index.html';
+            } catch (error) {
+                console.error('Erreur sauvegarde:', error);
+                alert(selectedLanguage === 'fr' ? 'Erreur de sauvegarde' : 'Save error');
+                btn.disabled = false;
+                btn.textContent = selectedLanguage === 'fr' ? 'Commencer à jouer 🚀' : 'Start Playing 🚀';
+            }
+        };
+
+        // Sélection par défaut
+        selectLanguage('fr');
+    </script>
+</body>
+</html>
