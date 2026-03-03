@@ -93,17 +93,9 @@ function saveProfile() {
   localStorage.setItem('mn_profile_v3', JSON.stringify(profile));
 }
 
-function getApiKey() {
-  return localStorage.getItem('mn_api_key') || '';
-}
-
-function saveApiKey() {
-  const key = document.getElementById('apiKeyInput').value.trim();
-  if (key) {
-    localStorage.setItem('mn_api_key', key);
-    showToast('Clé API sauvegardée ✓');
-  }
-}
+// Clé API gérée côté serveur via proxy Netlify
+function getApiKey() { return null; }
+function saveApiKey() { showToast('La clé API est gérée par le serveur.'); }
 
 // ── CONTEXTE ─────────────────────────────────────────
 function selectPersonal() {
@@ -296,6 +288,14 @@ function showPhase(phaseId) {
 function showTechSelection() {
   showPhase('phaseTechs');
   renderTechGrid();
+  // Afficher la situation dans la zone sticky
+  const step = game.scenario?.steps[game.currentStep];
+  if (step) {
+    const speechEl = document.getElementById('stickyOpponentLine');
+    const ctxEl = document.getElementById('stickyStepContext');
+    if (speechEl) speechEl.textContent = step.opponentLine || '';
+    if (ctxEl) ctxEl.textContent = step.situation || '';
+  }
 }
 
 function renderTechGrid() {
@@ -362,6 +362,11 @@ async function generateResponses() {
 
   showPhase('phaseGenerating');
 
+  // Afficher la modale "Saviez-vous que" pendant la génération
+  if (typeof showDidYouKnow === 'function') {
+    showDidYouKnow(game.selectedTechs);
+  }
+
   const step = game.scenario.steps[game.currentStep];
   const techs = game.selectedTechs.map(id => getTechById(id));
   const disruption = game.disruptionTriggered && game.currentStep === game.disruptionStep;
@@ -369,10 +374,12 @@ async function generateResponses() {
   try {
     const responses = await callGenerateResponsesAPI(step, techs, disruption);
     game.generatedResponses = responses;
+    if (typeof hideDidYouKnow === 'function') hideDidYouKnow();
     displayResponses(responses);
     showPhase('phaseResponses');
   } catch(err) {
     console.error('Génération réponses:', err);
+    if (typeof hideDidYouKnow === 'function') hideDidYouKnow();
     // Fallback avec des réponses génériques
     game.generatedResponses = generateFallbackResponses(techs);
     displayResponses(game.generatedResponses);
@@ -393,7 +400,11 @@ function generateFallbackResponses(techs) {
 function displayResponses(responses) {
   const list = document.getElementById('responsesList');
   list.innerHTML = '';
-  document.getElementById('btnConfirm').classList.add('hidden');
+  const btnConfirm = document.getElementById('btnConfirm');
+  if (btnConfirm) {
+    btnConfirm.disabled = true;
+    btnConfirm.classList.remove('hidden');
+  }
   game.selectedChoice = null;
 
   responses.forEach((resp, i) => {
@@ -418,7 +429,11 @@ function selectChoice(idx) {
   const card = document.getElementById(`resp-${idx}`);
   if (card) card.classList.add('selected');
   game.selectedChoice = idx;
-  document.getElementById('btnConfirm').classList.remove('hidden');
+  const btnConfirm = document.getElementById('btnConfirm');
+  if (btnConfirm) {
+    btnConfirm.disabled = false;
+    btnConfirm.classList.remove('hidden');
+  }
 }
 
 // ── CONFIRMER ET ÉVALUER ─────────────────────────────
